@@ -1,0 +1,309 @@
+/* generic */
+#content h1 {
+  text-align: center;
+  font-size: 40px;
+  padding: 0;
+  margin: 0 0 20px 0;
+  position: relative;
+  color: #8c8c8c;
+}
+
+/* Here comes to good stuff : content styling */
+#content {
+  position: relative;
+  margin: 50px auto;
+  width: 450px;
+  min-height: 200px;
+  z-index: 100;
+  padding: 30px;
+  border: 1px solid #000000;
+  /* My stipped background */
+  background: #d1d1d1;
+
+  /* FF3.6+ */
+  /*border-radius*/
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  /*box-shadow*/
+  -webkit-box-shadow: 0px 1px 6px #3f3f3f;
+  -moz-box-shadow: 0px 1px 6px #3f3f3f;
+  box-shadow: 0px 1px 6px #3f3f3f;
+}
+
+/** my "fake" background that will hover the stripes **/
+#content:after {
+  background: #f9f9f980;
+  margin: 10px;
+  position: absolute;
+  content: " ";
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: -1;
+  border: 1px rgb(0, 0, 0) id;
+  /*border-radius*/
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+}
+/*** form styling **/
+
+/** we remove the red glow around required fields since we are already using the red star */
+input:required,
+textarea:required {
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  -o-box-shadow: none;
+  box-shadow: none;
+}
+/** inputs and textarea**/
+#content input:not([type="submit"]),
+textarea {
+  outline: none;
+  display: block;
+  width: 100%;
+  padding: 4px 8px;
+  border: 1px dashed #dbdbdb;
+  color: #3f3f3f;
+
+  font-size: 14px;
+
+  /*transition*/
+  -webkit-transition: background 0.2s linear, box-shadow 0.6s linear;
+  -moz-transition: background 0.2s linear, box-shadow 0.6s linear;
+  -o-transition: background 0.2s linear, box-shadow 0.6s linear;
+  transition: background 0.2s linear, box-shadow 0.6s linear;
+}
+
+input:not([type="submit"]):active,
+textarea:active,
+input:not([type="submit"]):focus,
+textarea:focus {
+  background: #f7f7f7;
+  border: dashed 1px #969696;
+  /*box-shadow*/
+  -webkit-box-shadow: 2px 2px 7px #e8e8e8 inset;
+  -moz-box-shadow: 2px 2px 7px #e8e8e8 inset;
+  box-shadow: 2px 2px 7px #e8e8e8 inset;
+}
+/* input:not([type="submit"]) {
+    height: 20px;
+} */
+/* placeholder */
+::-webkit-input-placeholder {
+  color: #bababa;
+  font-style: italic;
+}
+input:-moz-placeholder,
+textarea:-moz-placeholder {
+  color: #bababa;
+  font-style: italic;
+}
+textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+/** labels**/
+
+/** adding our icon font !! */
+.iconic:before {
+  font-size: 25px;
+}
+.iconic.link:before {
+  content: "/";
+}
+.iconic.quote-alt:before {
+  content: "'";
+}
+.iconic.comment:before {
+  content: "q";
+}
+.iconic.user:before {
+  content: "u";
+}
+.iconic.mail-alt:before {
+  content: "M";
+}
+.contact-wrapper label {
+  color: #7f7e7e;
+  -webkit-transition: color 1s ease;
+  -moz-transition: color 1s ease;
+  transition: color 1s ease;
+}
+.contact-wrapper label:hover {
+  color: #191919;
+}
+.contact-wrapper label:before {
+  color: #c1bfbd;
+  -webkit-transition: color 1s ease;
+  -moz-transition: color 1s ease;
+  transition: color 1s ease;
+}
+.contact-wrapper label:hover:before {
+  color: #969696;
+  -webkit-transition: color 1s ease;
+  -moz-transition: color 1s ease;
+  transition: color 1s ease;
+}
+#content p {
+  margin-bottom: 20px;
+}
+.indication {
+  color: #878787;
+  font-size: 12px;
+  font-style: italic;
+  text-align: right;
+  padding-right: 10px;
+}
+.required {
+  color: #e5224c;
+}
+/** Styling the send button **/
+input[type="submit"] {
+  justify-content: center;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: #767676;
+  font-size: 18px;
+  padding: 10px 4px;
+  border: 1px solid #e0e0e0;
+  text-shadow: 0px 1px 1px #e8e8e8;
+  background: rgb(247, 247, 247);
+  background: -moz-linear-gradient(
+    top,
+    rgba(247, 247, 247, 1) 1%,
+    rgba(242, 242, 242, 1) 100%
+  );
+  background: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    color-stop(1%, rgba(247, 247, 247, 1)),
+    color-stop(100%, rgba(242, 242, 242, 1))
+  );
+  background: -webkit-linear-gradient(
+    top,
+    rgba(247, 247, 247, 1) 1%,
+    rgba(242, 242, 242, 1) 100%
+  );
+  background: -o-linear-gradient(
+    top,
+    rgba(247, 247, 247, 1) 1%,
+    rgba(242, 242, 242, 1) 100%
+  );
+  background: -ms-linear-gradient(
+    top,
+    rgba(247, 247, 247, 1) 1%,
+    rgba(242, 242, 242, 1) 100%
+  );
+  background: linear-gradient(
+    top,
+    rgba(247, 247, 247, 1) 1%,
+    rgba(242, 242, 242, 1) 100%
+  );
+  /*border-radius*/
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  /*box-shadow*/
+  -webkit-box-shadow: 0px 1px 1px #fff inset, 0 0 0px 5px #eaeaea;
+  -moz-box-shadow: 0px 1px 1px #fff inset, 0 0 0px 5px #eaeaea;
+  box-shadow: 0px 1px 1px #fff inset, 0 0 0px 5px #eaeaea;
+  /*transition*/
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+}
+input[type="submit"]:hover {
+  color: #686868;
+  border-color: #cecece;
+  background: rgb(244, 244, 244);
+  background: -moz-linear-gradient(
+    top,
+    rgba(244, 244, 244, 1) 0%,
+    rgba(242, 242, 242, 1) 100%
+  );
+  background: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    color-stop(0%, rgba(244, 244, 244, 1)),
+    color-stop(100%, rgba(242, 242, 242, 1))
+  );
+  background: -webkit-linear-gradient(
+    top,
+    rgba(244, 244, 244, 1) 0%,
+    rgba(242, 242, 242, 1) 100%
+  );
+  background: -o-linear-gradient(
+    top,
+    rgba(244, 244, 244, 1) 0%,
+    rgba(242, 242, 242, 1) 100%
+  );
+  background: -ms-linear-gradient(
+    top,
+    rgba(244, 244, 244, 1) 0%,
+    rgba(242, 242, 242, 1) 100%
+  );
+  background: linear-gradient(
+    top,
+    rgba(244, 244, 244, 1) 0%,
+    rgba(242, 242, 242, 1) 100%
+  );
+  /*box-shadow*/
+  -webkit-box-shadow: 0px 1px 1px #fff inset, 0 0 0px 5px #e0e0e0;
+  -moz-box-shadow: 0px 1px 1px #fff inset, 0 0 0px 5px #e0e0e0;
+  box-shadow: 0px 1px 1px #fff inset, 0 0 0px 5px #e0e0e0;
+}
+input[type="submit"]:active,
+input[type="submit"]:focus {
+  position: relative;
+  top: 1px;
+  color: #515151;
+  background: rgb(234, 234, 234);
+  background: -moz-linear-gradient(
+    top,
+    rgba(234, 234, 234, 1) 0%,
+    rgba(242, 242, 242, 1) 100%
+  );
+  background: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    color-stop(0%, rgba(234, 234, 234, 1)),
+    color-stop(100%, rgba(242, 242, 242, 1))
+  );
+  background: -webkit-linear-gradient(
+    top,
+    rgba(234, 234, 234, 1) 0%,
+    rgba(242, 242, 242, 1) 100%
+  );
+  background: -o-linear-gradient(
+    top,
+    rgba(234, 234, 234, 1) 0%,
+    rgba(242, 242, 242, 1) 100%
+  );
+  background: -ms-linear-gradient(
+    top,
+    rgba(234, 234, 234, 1) 0%,
+    rgba(242, 242, 242, 1) 100%
+  );
+  background: linear-gradient(
+    top,
+    rgba(234, 234, 234, 1) 0%,
+    rgba(242, 242, 242, 1) 100%
+  );
+  /*box-shadow*/
+  -webkit-box-shadow: 0px -1px 1px #fff inset, 0 0 0px 5px #e0e0e0;
+  -moz-box-shadow: 0px -1px 1px #fff inset, 0 0 0px 5px #e0e0e0;
+  box-shadow: 0px -1px 1px #fff inset, 0 0 0px 5px #e0e0e0;
+}
+@media only screen and (max-width: 600px) {
+  #content {
+    width: 100%;
+  }
+}

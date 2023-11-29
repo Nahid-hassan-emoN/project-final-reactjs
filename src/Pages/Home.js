@@ -117,10 +117,6 @@ const Home = () => {
             <h3 className="section-heading">Featured Collection</h3>
             <div className="row">
               <ProductCard />
-              <ProductCard />
-              <ProductCard />
-              <ProductCard />
-              <ProductCard />
             </div>
           </div>
         </div>

@@ -4,6 +4,7 @@ import BreadCrumb from "../Components/BreadCrumb";
 
 import { Link } from "react-router-dom";
 import BlogCard from "../Components/BlogCard";
+import Loading from "../Components/Loading";
 
 const Blogs = () => {
   return (

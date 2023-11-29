@@ -3,27 +3,47 @@ import Meta from "../Components/Meta";
 import BreadCrumb from "../Components/BreadCrumb";
 import PopularPord from "../Components/PopularPord";
 import ReactStars from "react-rating-stars-component";
-import ThumbGallery from "./ThumbGallery";
-import { Link } from "react-router-dom";
+import ThumbGallery from "../Components/ThumbGallery";
+import { Link, useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import Loading from "../Components/Loading";
 
-const SingleProduct = (product) => {
+const SingleProduct = () => {
   const [orderProduct, setOrderProduct] = useState(true);
-  const { id, price, stock } = product;
 
-  // const [color, setColor] = useState(color[0]);
+  // fetch data
 
-  const [amount, setAmount] = useState(1);
-  const setDecrease = () => {
-    amount > 1 ? setAmount(amount - 1) : setAmount(1);
+  const params = useParams();
+  console.log(params);
+  const fetchProducts = async () => {
+    const response = await fetch(
+      `https://dummyjson.com/products/${params.productId}`
+    );
+    const data = await response.json();
+    return data;
   };
-  const setIncrease = () => {
-    amount < stock ? setAmount(amount + 1) : setAmount(stock);
-  };
+
+  const {
+    isLoading,
+    error,
+    data: product,
+  } = useQuery({
+    queryKey: ["product", params.productId],
+    queryFn: fetchProducts,
+  });
+
+  if (isLoading) {
+    return <Loading />;
+  }
+  if (error) {
+    return <h3>Error: {error.message} </h3>;
+  }
+  // const { id, price, stock } = product;
+
   return (
     <>
-      <Meta title={" Product Name"} />
+      <Meta title={product.title} />
       <BreadCrumb title=" Product Name" />
-
       <div className="single-product py-3 home-wrapper-2">
         <div className="container-xxl">
           <div className="main-product-wrapper py-3 home-wrapper-2">
@@ -33,11 +53,16 @@ const SingleProduct = (product) => {
               </div>
               <div className="col-5">
                 <div className="branding">
-                  <h4>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                  </h4>
+                  <h4>{product.title}</h4>
+
                   <h6>
-                    <span>Brand</span>lorem
+                    Brand:
+                    <span
+                      className="
+                    text-red-400"
+                    >
+                      {product.brand}
+                    </span>
                   </h6>
                   <p>
                     <span>Specification</span>
@@ -46,12 +71,12 @@ const SingleProduct = (product) => {
                 </div>
 
                 <div className="price">
-                  <h3>৳ 6,299</h3>
+                  <h3>৳ {product.price}</h3>
                 </div>
 
                 <div className="buy-button">
-                  <Link to="/cart" onClick={() => (id, amount, price, product)}>
-                    <button className="button-71 ">Buy Now</button>
+                  <Link to="/cart">
+                    <button className="button-71 ">Add To Cart</button>
                   </Link>
                 </div>
               </div>
@@ -62,13 +87,8 @@ const SingleProduct = (product) => {
             <div className="row">
               <div className="col-12">
                 <div className="bg-white p-3">
-                  <h4>Details</h4>
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Blanditiis error, illo rem ut itaque vitae exercitationem
-                    culpa voluptate aspernatur rerum officia autem! Aliquid,
-                    magni debitis!
-                  </p>
+                  <h4>Details:</h4>
+                  <p>{product.description}</p>
                 </div>
               </div>
             </div>
@@ -85,7 +105,7 @@ const SingleProduct = (product) => {
                         <ReactStars
                           count={5}
                           size={18}
-                          value="4"
+                          value={product.rating}
                           edit={false}
                           activeColor="#ffd700"
                         />

@@ -10,16 +10,6 @@ import BreadCrumb from "../Components/BreadCrumb";
 import { Link } from "react-router-dom";
 
 const Cart = () => {
-  const [count, setCount] = useState(0);
-  const increment = () => {
-    setCount(count + 1);
-  };
-  const decrement = () => {
-    if (count > 0) {
-      setCount(count - 1);
-    }
-  };
-
   return (
     <>
       <Meta title={"Cart"} />
@@ -85,15 +75,9 @@ const Cart = () => {
                       <div className="row">Cotton T-shirt</div>
                     </div>
                     <div className="col">
-                      <Link to="#" onClick={decrement}>
-                        -
-                      </Link>
-                      <Link to="#" className="border">
-                        {count}
-                      </Link>
-                      <Link to="#" onClick={increment}>
-                        +
-                      </Link>
+                      <div className="productsQuantity ">
+                        <input type="number" />
+                      </div>
                     </div>
                     <div className="col">
                       &#2547; 44.00
@@ -116,15 +100,9 @@ const Cart = () => {
                       <div className="row">Cotton T-shirt</div>
                     </div>
                     <div className="col">
-                      <Link to="#" onClick={decrement}>
-                        -
-                      </Link>
-                      <Link to="#" className="border">
-                        {count}
-                      </Link>
-                      <Link to="#" onClick={increment}>
-                        +
-                      </Link>
+                      <div className="productsQuantity ">
+                        <input type="number" />
+                      </div>
                     </div>
                     <div className="col">
                       &#2547; 44.00
@@ -147,15 +125,9 @@ const Cart = () => {
                       <div className="row">Cotton T-shirt</div>
                     </div>
                     <div className="col">
-                      <Link to="#" onClick={decrement}>
-                        -
-                      </Link>
-                      <Link to="#" className="border">
-                        {count}
-                      </Link>
-                      <Link to="#" onClick={increment}>
-                        +
-                      </Link>
+                      <div className="productsQuantity ">
+                        <input type="number" />
+                      </div>
                     </div>
                     <div className="col">
                       &#2547; 44.00

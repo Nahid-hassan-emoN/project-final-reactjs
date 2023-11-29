@@ -19,6 +19,8 @@ const Pagination = () => {
               className="isolate inline-flex-space-x-px rounded-md shadow-sm "
               aria-label="Pagination"
             >
+              {/* // className={`page-item ${activePage === number ? "active" : ""}`} */}
+
               <Link
                 href="#"
                 className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
@@ -32,7 +34,6 @@ const Pagination = () => {
                 aria-current="page"
                 className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
               >
-                {" "}
                 1
               </Link>
               <Link

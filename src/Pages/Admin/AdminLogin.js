@@ -1,6 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const AdminLogin = () => {
+  const navigate = useNavigate();
   const handelLogin = async (e) => {
     e.preventDefault();
 
@@ -11,7 +13,8 @@ const AdminLogin = () => {
       const res = await fetch(
         "https://eshop-backend-rose.vercel.app/admin/auth/login",
         {
-          method: "POST", // specify the HTTP method
+          method: "POST",
+          // specify the HTTP method
           headers: {
             "Content-Type": "application/json", // specify the content type as JSON
             // Add any additional headers if needed
@@ -19,13 +22,15 @@ const AdminLogin = () => {
           body: JSON.stringify({
             email,
             password,
-          }), // convert data to JSON format
+          }),
+          // convert data to JSON format
         }
       );
       const data = await res.json();
       console.log(data);
       localStorage.setItem("eshoptoken", data.token);
-      console.log(localStorage.getItem("eshoptoken"));
+      navigate("/admin");
+      // console.log(localStorage.getItem("eshoptoken"));
     } catch (error) {
       console.log(error.message);
     }

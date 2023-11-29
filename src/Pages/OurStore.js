@@ -7,9 +7,13 @@ import ProductCard from "../Components/ProductCard";
 import Colors from "../Components/Colors";
 import { IoSearchSharp } from "react-icons/io5";
 import Pagination from "../Components/Pagination";
-const OurStore = () => {
-  const [grid, setgrid] = useState(4);
-
+const OurStore = (product) => {
+  // const [itemS, setItemS] = useState(1);
+  // const [itemsPerPage] = useState(10);
+  // get items per page
+  // const indexofLastPost = itemS * itemsPerPage;
+  // const indexOfFirstPost = indexofLastPost - itemsPerPage;
+  // const currentsItem = product.slice(indexOfFirstPost, indexofLastPost);
   return (
     <>
       <Meta title={"Our Store"} />
@@ -244,15 +248,6 @@ const OurStore = () => {
 
               <div className="products-list pb-4">
                 <div className="d-flex gap-10 flex-wrap">
-                  <ProductCard />
-                  <ProductCard />
-                  <ProductCard />
-                  <ProductCard />
-                  <ProductCard />
-                  <ProductCard />
-                  <ProductCard />
-                  <ProductCard />
-                  <ProductCard />
                   <ProductCard />
                 </div>
               </div>

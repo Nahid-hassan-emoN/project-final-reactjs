@@ -41,6 +41,18 @@ import UpdatePro from "./Pages/Admin/UpdatePro";
 import BannerProduct from "./Pages/Admin/BannerProduct";
 import DealDiscount from "./Pages/Admin/DealDiscount";
 
+// react-quaery
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import ProtectedRoute from "./Pages/content/ProtectedRoute";
+// Create a client
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 10000,
+    },
+  },
+});
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -95,7 +107,7 @@ const router = createBrowserRouter([
         element: <About />,
       },
       {
-        path: "/product/:id",
+        path: "/product/:productId",
         element: <SingleProduct />,
       },
       {
@@ -108,41 +120,73 @@ const router = createBrowserRouter([
       },
     ],
   },
+
   {
     path: "admin",
     children: [
       {
         path: "",
-        element: <AdminDashBoard />,
+        element: (
+          <ProtectedRoute>
+            <AdminDashBoard />
+          </ProtectedRoute>
+        ),
       },
+
       {
         path: "login",
+
         element: <AdminLogin />,
       },
 
       {
         path: "add-product",
-        element: <AddProduct />,
+        element: (
+          <ProtectedRoute>
+            <AddProduct />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "all-product",
-        element: <AllProduct />,
+        element: (
+          <ProtectedRoute>
+            <AllProduct />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "product-update",
-        element: <UpdatePro />,
+        element: (
+          <ProtectedRoute>
+            <UpdatePro />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "order-product",
-        element: <OrderProduct />,
+        element: (
+          <ProtectedRoute>
+            <OrderProduct />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "banner-product",
-        element: <BannerProduct />,
+        element: (
+          <ProtectedRoute>
+            <BannerProduct />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "deals-product",
-        element: <DealDiscount />,
+
+        element: (
+          <ProtectedRoute>
+            <DealDiscount />
+          </ProtectedRoute>
+        ),
       },
     ],
   },
@@ -179,8 +223,8 @@ const router = createBrowserRouter([
 // );
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  <QueryClientProvider client={queryClient}>
     <RouterProvider router={router} />
     <GoToTop />
-  </React.StrictMode>
+  </QueryClientProvider>
 );

@@ -5,6 +5,7 @@ import { TbLogout } from "react-icons/tb";
 import { RiEdit2Fill, RiDeleteBin2Line } from "react-icons/ri";
 
 import "./Admin.css";
+import AdminHeader from "./AdminHeader";
 
 const AllProduct = () => {
   const handleDeleteClick = () => {
@@ -17,73 +18,7 @@ const AllProduct = () => {
         <div className="container-xxl pt-5">
           <div className="row gap-10">
             <div className="admin-dashboard col-2">
-              <div className="left-sidebar ">
-                <nav class="main-menu">
-                  <ul>
-                    <li>
-                      <Link to="/admin">
-                        <span class="nav-text" id="shop-header">
-                          E-shop
-                        </span>
-                      </Link>
-                    </li>
-                    <li class="has-subnav">
-                      <Link to="/admin/order-product">
-                        <span class="nav-text">Order Product</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/admin/add-product">
-                        <span class="nav-text">Add Product</span>
-                      </Link>
-                    </li>
-                    <li class="has-subnav">
-                      <Link to="#">
-                        <span class="nav-text">All Product</span>
-                      </Link>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                      <Link
-                        class="nav-link dropdown-toggle"
-                        href="#"
-                        role="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      >
-                        <span class="nav-text">Add more Product</span>
-                      </Link>
-                      <ul class="dropdown-menu">
-                        <li>
-                          <Link
-                            class="dropdown-item"
-                            to="/admin/banner-product"
-                          >
-                            <span class="nav-text">Banner Product</span>
-                          </Link>
-                        </li>
-                        <li>
-                          <Link class="dropdown-item" to="/admin/deals-product">
-                            <span class="nav-text">Deals & Discount</span>
-                          </Link>
-                        </li>
-
-                        <li>
-                          <Link class="dropdown-item" href="#">
-                            <span class="nav-text">Dropdown-3</span>
-                          </Link>
-                        </li>
-                      </ul>
-                    </li>
-                  </ul>
-                </nav>
-                <div className="side-logout mx-auto">
-                  <Link>
-                    <TbLogout className="side-logout-icon " />
-                    &nbsp; Log Out
-                  </Link>
-                </div>
-              </div>
+              <AdminHeader />
             </div>
 
             <div className="col-9">

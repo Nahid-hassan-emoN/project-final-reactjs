@@ -17,56 +17,56 @@ const AdminHeader = () => {
   return (
     <>
       <div className="left-sidebar ">
-        <nav class="main-menu">
+        <nav className="main-menu">
           <ul>
             <li>
               <Link to="/admin">
-                <span class="nav-text" id="shop-header">
+                <span className="nav-text" id="shop-header">
                   E-shop
                 </span>
               </Link>
             </li>
-            <li class="has-subnav">
+            <li className="has-subnav">
               <Link to="/admin/order-product">
-                <span class="nav-text">Order Product</span>
+                <span className="nav-text">Order Product</span>
               </Link>
             </li>
             <li>
               <Link to="/admin/add-product">
-                <span class="nav-text">Add Product</span>
+                <span className="nav-text">Add Product</span>
               </Link>
             </li>
-            <li class="has-subnav">
+            <li className="has-subnav">
               <Link to="/admin/all-product">
-                <span class="nav-text">All Product</span>
+                <span className="nav-text">All Product</span>
               </Link>
             </li>
 
-            <li class="nav-item dropdown">
+            <li className="nav-item dropdown">
               <Link
-                class="nav-link dropdown-toggle"
+                className="nav-link dropdown-toggle"
                 href="#"
                 role="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                <span class="nav-text">Add more Product</span>
+                <span className="nav-text">Add more Product</span>
               </Link>
-              <ul class="dropdown-menu">
+              <ul className="dropdown-menu">
                 <li>
-                  <Link class="dropdown-item" to="/admin/banner-product">
-                    <span class="nav-text">Banner Product</span>
+                  <Link className="dropdown-item" to="/admin/banner-product">
+                    <span className="nav-text">Banner Product</span>
                   </Link>
                 </li>
                 <li>
-                  <Link class="dropdown-item" to="/admin/deals-product">
-                    <span class="nav-text">Deals & Discount</span>
+                  <Link className="dropdown-item" to="/admin/deals-product">
+                    <span className="nav-text">Deals & Discount</span>
                   </Link>
                 </li>
 
                 <li>
-                  <Link class="dropdown-item" href="#">
-                    <span class="nav-text">Dropdown-3</span>
+                  <Link className="dropdown-item" href="#">
+                    <span className="nav-text">Dropdown-3</span>
                   </Link>
                 </li>
               </ul>

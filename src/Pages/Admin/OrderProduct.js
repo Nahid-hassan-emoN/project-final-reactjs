@@ -12,7 +12,7 @@ const OrderProduct = () => {
     <>
       <div className="admin-full-body">
         <div className="container-xxl pt-5">
-          <div className="row ">
+          <div className="d-flex gap-20">
             <div className="admin-dashboard col-2">
               <AdminHeader />
             </div>

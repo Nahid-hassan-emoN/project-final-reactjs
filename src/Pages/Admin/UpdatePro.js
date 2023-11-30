@@ -1,82 +1,63 @@
-import React from "react";
-import BreadCrumb from "../../Components/BreadCrumb";
-import { Link, NavLink } from "react-router-dom";
-import { TbLogout } from "react-icons/tb";
+import React, { useEffect, useState } from "react";
+import { Link, NavLink, useParams } from "react-router-dom";
 import "./Admin.css";
+import AdminHeader from "./AdminHeader";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import axios from "axios";
+
 const UpdatePro = () => {
+  const params = useParams();
+  // Local state
+  const [productData, setProductData] = useState({});
+  // fetch
+
+  const fetchProduct = async () => {
+    const response = await fetch(
+      `https://eshop-backend-rose.vercel.app/admin/products/${params.productId}`
+    );
+    const data = await response.json();
+    console.log(data);
+
+    return data;
+  };
+  console.log(params.productId);
+  const { isLoading, error, data } = useQuery({
+    queryKey: [],
+    queryFn: fetchProduct,
+  });
+
+  useEffect(() => {
+    setProductData(data);
+  }, [data]);
+
+  //  mutation;
+  const mutation = useMutation({
+    mutationFn: (newProduct) => {
+      return axios.put(
+        `https://eshop-backend-rose.vercel.app/admin/products/${params.productId}`
+      );
+    },
+  });
+
+  // Update local state with changes
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setProductData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+  // Handle form submission
+  const handleSubmit = () => {
+    mutation.mutate(productData);
+  };
   return (
     <>
       <div className="admin-full-body">
         <div className="container-xxl pt-5">
-          <div className="row">
+          <div className="d-flex gap-20">
             <div className="admin-dashboard col-2">
-              <div className="left-sidebar ">
-                <nav class="main-menu">
-                  <ul>
-                    <li>
-                      <Link to="/admin">
-                        <span class="nav-text" id="shop-header">
-                          E-shop
-                        </span>
-                      </Link>
-                    </li>
-                    <li class="has-subnav">
-                      <Link to="/admin/order-product">
-                        <span class="nav-text">Order Product</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="">
-                        <span class="nav-text">Add Product</span>
-                      </Link>
-                    </li>
-                    <li class="has-subnav">
-                      <Link to="/admin/all-product">
-                        <span class="nav-text">All Product</span>
-                      </Link>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                      <Link
-                        class="nav-link dropdown-toggle"
-                        href="#"
-                        role="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      >
-                        <span class="nav-text">Add more Product</span>
-                      </Link>
-                      <ul class="dropdown-menu">
-                        <li>
-                          <Link
-                            class="dropdown-item"
-                            to="/admin/banner-product"
-                          >
-                            <span class="nav-text">Banner Product</span>
-                          </Link>
-                        </li>
-                        <li>
-                          <Link class="dropdown-item" to="/admin/deals-product">
-                            <span class="nav-text">Deals & Discount</span>
-                          </Link>
-                        </li>
-
-                        <li>
-                          <Link class="dropdown-item" href="#">
-                            <span class="nav-text">Dropdown-3</span>
-                          </Link>
-                        </li>
-                      </ul>
-                    </li>
-                  </ul>
-                </nav>
-                <div className="side-logout mx-auto ">
-                  <Link>
-                    <TbLogout className="side-logout-icon " />
-                    &nbsp; Log Out
-                  </Link>
-                </div>
-              </div>
+              <AdminHeader />
             </div>
 
             <div className="col-9">
@@ -85,14 +66,30 @@ const UpdatePro = () => {
                 <div className="add-product-form">
                   <fieldset>
                     <legend>Product Basic Info :</legend>
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="pro_name" required />
-                    <label for="Price">Price:</label>
-                    <input type="number" id="pro_Price" name="pro_Price" />
+                    <label htmlFor="name">Name:</label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="pro_name"
+                      value={data && data.name}
+                      required
+                    />
+                    <label htmlFor="Price">Price:</label>
+                    <input
+                      type="number"
+                      id="pro_Price"
+                      name="pro_Price"
+                      value={data?.price || ""}
+                    />
                     <div className="row">
                       <div className="col-4">
                         <label>Availability Status:</label>
-                        <input type="number" id="under_100" name="user_age" />
+                        <input
+                          type="number"
+                          id="under_100"
+                          name="user_age"
+                          value={data?.availableQuantity || ""}
+                        />
                       </div>
                       <div className="col-4">
                         <label>Brand:</label>
@@ -100,6 +97,7 @@ const UpdatePro = () => {
                           type="text"
                           placeholder="Samsung / Apple"
                           name="user_age"
+                          value={data?.company || ""}
                         />
                       </div>
                       <div className="col-4">
@@ -108,10 +106,12 @@ const UpdatePro = () => {
                           type="text"
                           placeholder="Made in"
                           name="user_age"
+                          value={data?.countryOfOrigin || ""}
                         />
                       </div>
                     </div>
                     <label htmlFor="">Specification: </label>
+
                     <div className="row">
                       <div className="col-5">
                         <label>Details:</label>
@@ -120,6 +120,7 @@ const UpdatePro = () => {
                           id="under_100"
                           name=""
                           placeholder="Ram/Display"
+                          value={data?.details?.value || ""}
                         />
                       </div>
                       <div className="col-5">
@@ -128,15 +129,17 @@ const UpdatePro = () => {
                           type="text"
                           placeholder="4 GB / 8GB"
                           name="user_age"
+                          value={data?.details?.value || ""}
                         />
                       </div>
                       <div className="col-2 mt-5">
-                        <button type="button" class="btn btn-primary">
+                        <button type="button" className="btn btn-primary">
                           Add
                         </button>
                       </div>
                     </div>
-                    <label for="job">Select Category:</label>
+
+                    <label htmlFor="job">Select Category:</label>
                     <select id="job" name="user_job">
                       <optgroup label="Electronics">
                         <option value="smart-phones">Smart Phones</option>
@@ -165,22 +168,22 @@ const UpdatePro = () => {
                         </option>
                       </optgroup>
                     </select>
-                    <label for="job">Add More Category:</label>
+                    <label htmlFor="job">Add More Category:</label>
                     <input
                       type="text"
                       placeholder="Add Catagories"
                       name="user_age"
                     />
-                    <label for="img" className="mt-4">
+                    <label htmlFor="img" className="mt-4">
                       Image:
                     </label>
                     <input type="file" />
-                    <label for="details">Details:</label>
+                    <label htmlFor="details">Details:</label>
                     <textarea
                       id="pro_details"
                       name="pro_details"
                       required
-                      col
+                      value={data?.details || ""}
                     ></textarea>
                   </fieldset>
 

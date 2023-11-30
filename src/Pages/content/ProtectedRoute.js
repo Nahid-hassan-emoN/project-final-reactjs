@@ -11,7 +11,6 @@ const ProtectedRoute = ({ children }) => {
   //   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("eshoptoken");
   const user = false;
-  console.log("token");
   if (token) {
     return children;
   } else {

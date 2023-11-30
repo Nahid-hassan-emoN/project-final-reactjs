@@ -192,12 +192,15 @@
 }
 .adminLogin-main label {
   color: #fff;
-  font-size: 2.4em;
-  justify-content: center;
-  display: flex;
-  margin: 50px;
+  font-size: 3em;
+  text-align: center;
+  margin: 20px 50px 0 50px;
   font-weight: bold;
   transition: 0.5s ease-in-out;
+  padding: 0 43px;
+}
+.adminLogin-main label span {
+  color: #6dd4b1;
 }
 .adminLogin-main .adminLogin input {
   width: 80%;
@@ -212,7 +215,7 @@
   border-radius: 5px;
 }
 .adminLogin-main .adminLogin button {
-  width: 75%;
+  width: 80%;
   height: 50px;
   margin: 10px auto;
   justify-content: center;
@@ -230,6 +233,10 @@
 }
 .adminLogin-main button:hover {
   background: #845cce;
+}
+.adminLogin #show-pass {
+  height: 20px;
+  font-size: 15px;
 }
 /* -----------Admin-login -------- */
 

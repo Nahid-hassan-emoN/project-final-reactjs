@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 import "./App.css";
 import { createRoot } from "react-dom/client";
 import {
@@ -135,7 +135,6 @@ const router = createBrowserRouter([
 
       {
         path: "login",
-
         element: <AdminLogin />,
       },
 
@@ -156,7 +155,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "product-update",
+        path: "product-update/:productId",
         element: (
           <ProtectedRoute>
             <UpdatePro />

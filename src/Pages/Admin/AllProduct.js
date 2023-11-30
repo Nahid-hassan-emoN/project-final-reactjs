@@ -1,22 +1,88 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import { TbLogout } from "react-icons/tb";
 import { RiEdit2Fill, RiDeleteBin2Line } from "react-icons/ri";
-
+import { useQuery } from "@tanstack/react-query";
 import "./Admin.css";
 import AdminHeader from "./AdminHeader";
+import Swal from "sweetalert2";
 
 const AllProduct = () => {
-  const handleDeleteClick = () => {
-    // Display an alert when the delete button is clicked
-    alert("Are you sure you want to delete?");
+  // Local state
+  const [productData, setProductData] = useState([]);
+  //   const { isLoading, error, data } = useQuery({
+  //     queryKey: [],
+  //     queryFn: fetchProducts,
+  //   });
+
+  const fetchProducts = async () => {
+    const response = await fetch(
+      "https://eshop-backend-rose.vercel.app/admin/products"
+    );
+    const data = await response.json();
+    if (Array.isArray(data)) {
+      setProductData(data);
+    }
+    // return data;
   };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const handleDelete = (productId) => {
+    console.log(productId);
+    const token = localStorage.getItem("eshoptoken");
+
+    console.log(token);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      fetch(
+        `https://eshop-backend-rose.vercel.app/admin/products/${productId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+            // Add any additional headers as needed, such as authorization headers
+          },
+        }
+      )
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("DELETE request failed");
+          }
+
+          if (result.isConfirmed) {
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your file has been deleted.",
+              icon: "success",
+            });
+          }
+          fetchProducts();
+          console.log("DELETE request successful");
+          // You may want to handle additional logic here after successful deletion
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    });
+  };
+
   return (
     <>
       <div className="admin-full-body">
         <div className="container-xxl pt-5">
-          <div className="row gap-10">
+          <div className="d-flex gap-20">
             <div className="admin-dashboard col-2">
               <AdminHeader />
             </div>
@@ -76,100 +142,54 @@ const AllProduct = () => {
                     </select>
                   </div>
                   <div className="allProduct-table">
-                    <table class="rwd-table">
-                      <tbody>
+                    <table className="rwd-table">
+                      <thead>
                         <tr>
                           <th>Product Code</th>
+                          <th>company</th>
                           <th>Product Name</th>
                           <th>Stock</th>
                           <th>Stock Added</th>
-                          <th>Net Amount</th>
+                          <th>Amount</th>
                           <th>Update</th>
                           <th>Delete</th>
                         </tr>
-                        <tr>
-                          <td data-th="Supplier Code">UPS5005</td>
-                          <td data-th="Supplier Name">UPS</td>
-                          <td data-th="Invoice Number">ASDF19218</td>
-                          <td data-th="Invoice Date">06/25/2016</td>
-                          <td data-th="Net Amount">$8,322.12</td>
-                          <td>
-                            <Link to="/admin/product-update">
-                              <RiEdit2Fill className="update-icon" />
-                            </Link>
-                          </td>
-                          <td>
-                            <Link to="#">
-                              <RiDeleteBin2Line
-                                className="delete-icon"
-                                onClick={handleDeleteClick}
-                              />
-                            </Link>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td data-th="Supplier Code">UPS3449</td>
-                          <td data-th="Supplier Name">UPS South Inc.</td>
-                          <td data-th="Invoice Number">ASDF29301</td>
-                          <td data-th="Invoice Date">6/24/2016</td>
+                      </thead>
+                      <tbody>
+                        {console.log(productData)}
 
-                          <td data-th="Net Amount">$3,255.49</td>
-                          <td>
-                            <Link to="">
-                              <RiEdit2Fill className="update-icon" />
-                            </Link>
-                          </td>
-                          <td>
-                            <Link to="">
-                              <RiDeleteBin2Line
-                                className="delete-icon"
-                                onClick={handleDeleteClick}
-                              />
-                            </Link>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td data-th="Supplier Code">BOX5599</td>
-                          <td data-th="Supplier Name">BOX Pro West</td>
-                          <td data-th="Invoice Number">ASDF43000</td>
-                          <td data-th="Invoice Date">6/27/2016</td>
+                        {Array.isArray(productData) &&
+                          productData.map((item) => (
+                            <tr key={item._id}>
+                              <td data-th="Supplier Code">
+                                {item._id.substring(0, 8)}
+                              </td>
+                              <td data-th="Invoice Date">{item.company}</td>
+                              <td data-th="Supplier Name">{item.name}</td>
+                              <td data-th="Invoice Number">
+                                {item.availableQuantity}
+                              </td>
 
-                          <td data-th="Net Amount">$45,255.49</td>
-                          <td>
-                            <Link to="">
-                              <RiEdit2Fill className="update-icon" />
-                            </Link>
-                          </td>
-                          <td>
-                            <Link to="">
-                              <RiDeleteBin2Line
-                                className="delete-icon"
-                                onClick={handleDeleteClick}
-                              />
-                            </Link>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td data-th="Supplier Code">PAN9999</td>
-                          <td data-th="Supplier Name">Pan Providers and Co.</td>
-                          <td data-th="Invoice Number">ASDF33433</td>
-                          <td data-th="Invoice Date">6/29/2016</td>
+                              <td data-th="Invoice Date">
+                                {item.updatedAt.substring(0, 10)}
+                              </td>
 
-                          <td data-th="Net Amount">$12,335.69</td>
-                          <td>
-                            <Link to="/admin/product-update">
-                              <RiEdit2Fill className="update-icon" />
-                            </Link>
-                          </td>
-                          <td>
-                            <Link to="">
-                              <RiDeleteBin2Line
-                                className="delete-icon"
-                                onClick={handleDeleteClick}
-                              />
-                            </Link>
-                          </td>
-                        </tr>
+                              <td data-th="Net Amount">{item.price}</td>
+                              <td>
+                                <Link to={`/admin/product-update/${item._id}`}>
+                                  <RiEdit2Fill className="update-icon" />
+                                </Link>
+                              </td>
+                              <td>
+                                <Link to="">
+                                  <RiDeleteBin2Line
+                                    className="delete-icon"
+                                    onClick={() => handleDelete(item._id)}
+                                  />
+                                </Link>
+                              </td>
+                            </tr>
+                          ))}
                       </tbody>
                     </table>
                   </div>

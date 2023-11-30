@@ -1,15 +1,118 @@
-import React from "react";
+import React, { useState } from "react";
 import BreadCrumb from "../../Components/BreadCrumb";
 import { Link, NavLink } from "react-router-dom";
 import { TbLogout } from "react-icons/tb";
 import "./Admin.css";
 import AdminHeader from "./AdminHeader";
+
 const AddProduct = () => {
+  const [specification, setSpecification] = useState({
+    specificationTitle: "",
+    specificationValue: "",
+  });
+
+  // Initial state for the form data
+  const [productData, setProductData] = useState({
+    name: "",
+    price: "",
+    availableQuantity: "",
+    company: "",
+    countryOfOrigin: "",
+    specifications: [],
+    category: "smart-phones", // Default category
+    additionalCategory: "",
+    image: "",
+    details: "",
+  });
+
+  // const handleSpecificationChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setProductData((prevData) => ({
+  //     ...prevData,
+  //     [name]: value,
+  //   }));
+  // };
+  const addSpecificationHandeler = () => {
+    console.log(specification);
+    if (
+      !specification.specificationTitle ||
+      !specification.specificationValue
+    ) {
+      alert("required specification");
+      return;
+    }
+    setProductData((productData) => {
+      return {
+        ...productData,
+        specifications: [...productData.specifications, specification],
+      };
+    });
+  };
+  console.log(productData);
+  // Handler to update form data on input change
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setProductData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  // Handler to add a specification to the specifications array
+  // const handleAddSpecification = () => {
+  //   const newSpecification = {
+  //     detail: productData.detail,
+  //     value: productData.value,
+  //   };
+
+  //   setProductData((prevData) => ({
+  //     ...prevData,
+  //     specifications: [...prevData.specifications, newSpecification],
+  //     detail: "",
+  //     value: "",
+  //   }));
+  // };
+
+  // Handler to submit the form data
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem("eshoptoken");
+    console.log(token);
+
+    console.log(productData);
+    // Your API endpoint for adding products
+
+    // Fetch options
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+        // Add any additional headers as needed, such as authorization headers
+      },
+      body: JSON.stringify(productData),
+    };
+    const fetch =
+      ("https://eshop-backend-rose.vercel.app/admin/products", options);
+    // Send the POST request
+    fetch()
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to add product");
+        }
+        alert(`Product added successfully`);
+
+        // You may want to handle additional logic here after successful addition
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
   return (
     <>
       <div className="admin-full-body">
         <div className="container-xxl pt-5">
-          <div className="row">
+          <div className="d-flex gap-20">
             <div className="admin-dashboard col-2">
               <AdminHeader />
             </div>
@@ -17,31 +120,58 @@ const AddProduct = () => {
               <h1 className="main-header text-center ">Add Product</h1>
               <div className="addProduct">
                 <div className="add-product-form">
-                  <fieldset>
+                  <form onSubmit={handleSubmit}>
                     <legend>Product Basic Info :</legend>
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="pro_name" required />
-                    <label for="Price">Price:</label>
-                    <input type="number" id="pro_Price" name="pro_Price" />
+                    <label htmlFor="name">Name:</label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      placeholder="name of the product"
+                      required
+                      value={productData.name}
+                      onChange={handleInputChange}
+                    />
+                    <label htmlFor="Price">Price:</label>
+                    <input
+                      type="number"
+                      id="price"
+                      name="price"
+                      placeholder="price of the product"
+                      value={productData.price}
+                      onChange={handleInputChange}
+                    />
                     <div className="row">
                       <div className="col-4">
                         <label>Availability Status:</label>
-                        <input type="number" id="under_100" name="user_age" />
-                      </div>
-                      <div className="col-4">
-                        <label>Brand:</label>
+
                         <input
-                          type="text"
-                          placeholder="Samsung / Apple"
-                          name="user_age"
+                          type="number"
+                          id="availableQuantity"
+                          name="availableQuantity"
+                          placeholder="ability of the product"
+                          value={productData.availableQuantity}
+                          onChange={handleInputChange}
                         />
                       </div>
                       <div className="col-4">
-                        <label>Country:</label>
+                        <label>Company:</label>
+                        <input
+                          type="text"
+                          placeholder="Samsung / Apple"
+                          name="company"
+                          value={productData.company}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+                      <div className="col-4">
+                        <label>CountryOfOrigin:</label>
                         <input
                           type="text"
                           placeholder="Made in"
-                          name="user_age"
+                          name="countryOfOrigin"
+                          value={productData.countryOfOrigin}
+                          onChange={handleInputChange}
                         />
                       </div>
                     </div>
@@ -52,8 +182,17 @@ const AddProduct = () => {
                         <input
                           type="text"
                           id="under_100"
-                          name=""
+                          name="specificationTitle"
                           placeholder="Ram/Display"
+                          value={productData.specification}
+                          onChange={(e) => {
+                            setSpecification((specification) => {
+                              return {
+                                ...specification,
+                                specificationTitle: e.target.value,
+                              };
+                            });
+                          }}
                         />
                       </div>
                       <div className="col-5">
@@ -61,16 +200,29 @@ const AddProduct = () => {
                         <input
                           type="text"
                           placeholder="4 GB / 8GB"
-                          name="user_age"
+                          name="specificationValue"
+                          value={productData.specification}
+                          onChange={(e) => {
+                            setSpecification((specification) => {
+                              return {
+                                ...specification,
+                                specificationValue: e.target.value,
+                              };
+                            });
+                          }}
                         />
                       </div>
                       <div className="col-2 mt-5">
-                        <button type="button" class="btn btn-primary">
+                        <button
+                          type="button"
+                          className="btn btn-primary "
+                          onClick={addSpecificationHandeler}
+                        >
                           Add
                         </button>
                       </div>
                     </div>
-                    <label for="job">Select Category:</label>
+                    <label htmlFor="job">Select Category:</label>
                     <select id="job" name="user_job">
                       <optgroup label="Electronics">
                         <option value="smart-phones">Smart Phones</option>
@@ -99,28 +251,29 @@ const AddProduct = () => {
                         </option>
                       </optgroup>
                     </select>
-                    <label for="job">Add More Category:</label>
+                    <label htmlFor="job">Add More Category:</label>
                     <input
                       type="text"
                       placeholder="Add Catagories"
                       name="user_age"
                     />
-                    <label for="img" className="mt-4">
+                    <label htmlFor="img" className="mt-4">
                       Image:
                     </label>
                     <input type="file" />
-                    <label for="details">Details:</label>
+                    <label htmlFor="details">Details:</label>
                     <textarea
-                      id="pro_details"
-                      name="pro_details"
+                      id="details"
+                      name="details"
                       required
-                      col
+                      onChange={handleInputChange}
+                      value={productData.details}
                     ></textarea>
-                  </fieldset>
 
-                  <button className="add-pro-btn mb-5" type="submit">
-                    Add Product
-                  </button>
+                    <button className="add-pro-btn mb-5" type="submit">
+                      Add Product
+                    </button>
+                  </form>
                 </div>
               </div>
             </div>

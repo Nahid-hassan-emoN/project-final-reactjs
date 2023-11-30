@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaEyeSlash, FaRegEye } from "react-icons/fa";
 
 const AdminLogin = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const handelLogin = async (e) => {
     e.preventDefault();
@@ -26,14 +29,17 @@ const AdminLogin = () => {
           // convert data to JSON format
         }
       );
+
       const data = await res.json();
-      console.log(data);
       localStorage.setItem("eshoptoken", data.token);
       navigate("/admin");
       // console.log(localStorage.getItem("eshoptoken"));
     } catch (error) {
       console.log(error.message);
     }
+  };
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
   return (
     <>
@@ -44,17 +50,28 @@ const AdminLogin = () => {
           <div class="adminLogin">
             <form onSubmit={handelLogin}>
               <label for="chk" aria-hidden="true">
-                Admin Log-in
+                Admin
+                <span>
+                  <br />
+                  Log-In
+                </span>
               </label>
 
               <input type="email" name="email" placeholder="Email" required />
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 name="pswd"
                 placeholder="Password"
                 required
+                onChange={(e) => setPassword(e.target.value)}
               />
-
+              <button
+                id="show-pass"
+                type="button"
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? "Hide" : "Show"} Password
+              </button>
               <button type="submit">Login</button>
             </form>
           </div>

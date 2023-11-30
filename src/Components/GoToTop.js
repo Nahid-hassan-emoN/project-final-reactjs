@@ -9,11 +9,11 @@ const GoToTop = () => {
   return (
     <>
       <div className="toTop">
-        <wrapper>
+        <div>
           <div className="goToTop" onClick={goTop}>
             <NavigationTwoToneIcon />
           </div>
-        </wrapper>
+        </div>
       </div>
     </>
   );

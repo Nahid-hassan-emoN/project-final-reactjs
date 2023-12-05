@@ -47,6 +47,7 @@ const UpdatePro = () => {
       [name]: value,
     }));
   };
+
   // Handle form submission
   const handleSubmit = () => {
     mutation.mutate(productData);
@@ -82,7 +83,7 @@ const UpdatePro = () => {
                       value={data?.price || ""}
                     />
                     <div className="row">
-                      <div className="col-4">
+                      <div className="col-3">
                         <label>Availability Status:</label>
                         <input
                           type="number"
@@ -91,7 +92,7 @@ const UpdatePro = () => {
                           value={data?.availableQuantity || ""}
                         />
                       </div>
-                      <div className="col-4">
+                      <div className="col-3">
                         <label>Brand:</label>
                         <input
                           type="text"
@@ -100,13 +101,22 @@ const UpdatePro = () => {
                           value={data?.company || ""}
                         />
                       </div>
-                      <div className="col-4">
+                      <div className="col-3">
                         <label>Country:</label>
                         <input
                           type="text"
                           placeholder="Made in"
                           name="user_age"
                           value={data?.countryOfOrigin || ""}
+                        />
+                      </div>
+                      <div className="col-3">
+                        <label>Rating:</label>
+                        <input
+                          type="number"
+                          placeholder="3.0 / 4.0"
+                          name="user_age"
+                          value={data?.rating || ""}
                         />
                       </div>
                     </div>
@@ -168,12 +178,12 @@ const UpdatePro = () => {
                         </option>
                       </optgroup>
                     </select>
-                    <label htmlFor="job">Add More Category:</label>
+                    {/* <label htmlFor="job">Add More Category:</label>
                     <input
                       type="text"
                       placeholder="Add Catagories"
                       name="user_age"
-                    />
+                    /> */}
                     <label htmlFor="img" className="mt-4">
                       Image:
                     </label>
@@ -188,7 +198,7 @@ const UpdatePro = () => {
                   </fieldset>
 
                   <button className="add-pro-btn mb-5" type="submit">
-                    Add Product
+                    Update Product
                   </button>
                 </div>
               </div>

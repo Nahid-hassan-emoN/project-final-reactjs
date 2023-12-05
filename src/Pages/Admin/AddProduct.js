@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import BreadCrumb from "../../Components/BreadCrumb";
-import { Link, NavLink } from "react-router-dom";
-import { TbLogout } from "react-icons/tb";
 import "./Admin.css";
 import AdminHeader from "./AdminHeader";
+import Swal from "sweetalert2";
 
 const AddProduct = () => {
+  const [loading, setLoading] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("smart-phones");
   const [specification, setSpecification] = useState({
-    specificationTitle: "",
-    specificationValue: "",
+    title: "",
+    value: "",
   });
 
   // Initial state for the form data
@@ -16,39 +16,43 @@ const AddProduct = () => {
     name: "",
     price: "",
     availableQuantity: "",
+
     company: "",
     countryOfOrigin: "",
-    specifications: [],
-    category: "smart-phones", // Default category
-    additionalCategory: "",
-    image: "",
+    specification: [],
+
+    // Default category
+    category: " smart phone",
+    // additionalCategory: "",
+    productImage: "abc.jpg",
     details: "",
+    rating: ``,
   });
 
-  // const handleSpecificationChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setProductData((prevData) => ({
-  //     ...prevData,
-  //     [name]: value,
-  //   }));
-  // };
+  // img--bb
+  // fetch("https://api.imgbb.com/1/upload",
+  //   {
+  //     method: "POST",
+
+  // })
+
+  // img--bb
+
   const addSpecificationHandeler = () => {
-    console.log(specification);
-    if (
-      !specification.specificationTitle ||
-      !specification.specificationValue
-    ) {
+    // console.log(specification);
+    if (!specification.title || !specification.value) {
       alert("required specification");
       return;
     }
     setProductData((productData) => {
       return {
         ...productData,
-        specifications: [...productData.specifications, specification],
+        specification: [...productData.specification, specification],
       };
     });
+    setSpecification({ title: "", value: "" });
   };
-  console.log(productData);
+  // console.log(productData);
   // Handler to update form data on input change
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -57,56 +61,84 @@ const AddProduct = () => {
       [name]: value,
     }));
   };
-
-  // Handler to add a specification to the specifications array
-  // const handleAddSpecification = () => {
-  //   const newSpecification = {
-  //     detail: productData.detail,
-  //     value: productData.value,
-  //   };
-
-  //   setProductData((prevData) => ({
-  //     ...prevData,
-  //     specifications: [...prevData.specifications, newSpecification],
-  //     detail: "",
-  //     value: "",
-  //   }));
-  // };
-
+  // Handler to update the selected category
+  const handleCategoryChange = (e) => {
+    setSelectedCategory(e.target.value);
+  };
   // Handler to submit the form data
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
+    // Upload image to ImgBB
+    // const imageForm = new FormData();
+    // imageForm.append("image", e.target.image.files[0]);
+
+    // const imgBBResponse = await fetch("https://api.imgbb.com/1/upload?c255676be63e51dd58bb99826d7eb9ec" , {
+    //   method: "POST",
+    //   body: imageForm,
+    // });
+
+    // const imgBBData = await imgBBResponse.json();
+
+    // // Prepare product data with the image URL
+    // const productDataWithImage = {
+    //   ...productData,
+    //   productImage: imgBBData.data.url,
+    // };
     const token = localStorage.getItem("eshoptoken");
+
     console.log(token);
 
     console.log(productData);
-    // Your API endpoint for adding products
 
-    // Fetch options
-    const options = {
+    // console.log(obj);
+    console.log(JSON.stringify(productData));
+
+    // Send the POST request
+    fetch("https://eshop-backend-rose.vercel.app/admin/products", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: token,
         // Add any additional headers as needed, such as authorization headers
       },
+
       body: JSON.stringify(productData),
-    };
-    const fetch =
-      ("https://eshop-backend-rose.vercel.app/admin/products", options);
-    // Send the POST request
-    fetch()
+    })
       .then((response) => {
+        return response.json();
         if (!response.ok) {
-          throw new Error("Failed to add product");
+          throw new Error("failed to add product");
         }
-        alert(`Product added successfully`);
 
         // You may want to handle additional logic here after successful addition
       })
+
+      .then((data) => {
+        Swal.fire({
+          title: "Product added!",
+          icon: "success",
+        });
+      })
       .catch((error) => {
         console.error("Error:", error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
+    // Reset the form data
+    setProductData({
+      name: "",
+      price: "",
+      availableQuantity: "",
+      company: "",
+      countryOfOrigin: "",
+      specification: [],
+      category: "",
+      productImage: "",
+      details: "",
+      rating: ``,
+    });
   };
   return (
     <>
@@ -136,41 +168,59 @@ const AddProduct = () => {
                     <input
                       type="number"
                       id="price"
+                      required
                       name="price"
                       placeholder="price of the product"
                       value={productData.price}
                       onChange={handleInputChange}
                     />
                     <div className="row">
-                      <div className="col-4">
+                      <div className="col-3">
                         <label>Availability Status:</label>
 
                         <input
                           type="number"
                           id="availableQuantity"
+                          required
                           name="availableQuantity"
                           placeholder="ability of the product"
                           value={productData.availableQuantity}
                           onChange={handleInputChange}
                         />
                       </div>
-                      <div className="col-4">
+                      <div className="col-3">
                         <label>Company:</label>
                         <input
                           type="text"
                           placeholder="Samsung / Apple"
+                          id="company"
+                          required
                           name="company"
                           value={productData.company}
                           onChange={handleInputChange}
                         />
                       </div>
-                      <div className="col-4">
-                        <label>CountryOfOrigin:</label>
+                      <div className="col-3">
+                        <label>Country Of Origin:</label>
                         <input
                           type="text"
+                          id="countryOfOrigin"
                           placeholder="Made in"
+                          required
                           name="countryOfOrigin"
                           value={productData.countryOfOrigin}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+                      <div className="col-3">
+                        <label>Rating:</label>
+                        <input
+                          type="number"
+                          id=" rating"
+                          required
+                          name="rating"
+                          placeholder="4.1 / 3.0"
+                          value={productData.rating}
                           onChange={handleInputChange}
                         />
                       </div>
@@ -181,15 +231,15 @@ const AddProduct = () => {
                         <label>Details</label>
                         <input
                           type="text"
-                          id="under_100"
-                          name="specificationTitle"
+                          id="title"
+                          name="title"
                           placeholder="Ram/Display"
-                          value={productData.specification}
+                          value={specification.title}
                           onChange={(e) => {
                             setSpecification((specification) => {
                               return {
                                 ...specification,
-                                specificationTitle: e.target.value,
+                                title: e.target.value,
                               };
                             });
                           }}
@@ -199,14 +249,15 @@ const AddProduct = () => {
                         <label>Value:</label>
                         <input
                           type="text"
+                          id="value"
                           placeholder="4 GB / 8GB"
-                          name="specificationValue"
-                          value={productData.specification}
+                          name="value"
+                          value={specification.value}
                           onChange={(e) => {
                             setSpecification((specification) => {
                               return {
                                 ...specification,
-                                specificationValue: e.target.value,
+                                value: e.target.value,
                               };
                             });
                           }}
@@ -222,8 +273,25 @@ const AddProduct = () => {
                         </button>
                       </div>
                     </div>
+
+                    {productData.specification.length > 0 && (
+                      <div className="mb-5">
+                        {productData.specification.map((s, idx) => (
+                          <p className="fs-6" key={idx}>
+                            <span className="fw-bold px-3">{s.title}:</span>
+                            {s.value}
+                          </p>
+                        ))}
+                      </div>
+                    )}
+
                     <label htmlFor="job">Select Category:</label>
-                    <select id="job" name="user_job">
+                    <select
+                      id="category"
+                      name="category"
+                      value={selectedCategory}
+                      onChange={handleCategoryChange}
+                    >
                       <optgroup label="Electronics">
                         <option value="smart-phones">Smart Phones</option>
 
@@ -251,12 +319,12 @@ const AddProduct = () => {
                         </option>
                       </optgroup>
                     </select>
-                    <label htmlFor="job">Add More Category:</label>
+                    {/* <label htmlFor="job">Add More Category:</label>
                     <input
                       type="text"
                       placeholder="Add Catagories"
                       name="user_age"
-                    />
+                    /> */}
                     <label htmlFor="img" className="mt-4">
                       Image:
                     </label>
@@ -270,7 +338,11 @@ const AddProduct = () => {
                       value={productData.details}
                     ></textarea>
 
-                    <button className="add-pro-btn mb-5" type="submit">
+                    <button
+                      className="add-pro-btn mb-5"
+                      type="submit"
+                      disabled={loading}
+                    >
                       Add Product
                     </button>
                   </form>

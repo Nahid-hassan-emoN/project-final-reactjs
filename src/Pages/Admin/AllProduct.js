@@ -80,7 +80,7 @@ const AllProduct = () => {
 
   return (
     <>
-      <div className="admin-full-body">
+      <div className="admin-full-body" style={{ minHeight: "100vh" }}>
         <div className="container-xxl pt-5">
           <div className="d-flex gap-20">
             <div className="admin-dashboard col-2">
@@ -162,7 +162,7 @@ const AllProduct = () => {
                           productData.map((item) => (
                             <tr key={item._id}>
                               <td data-th="Supplier Code">
-                                {item._id.substring(0, 8)}
+                                {item._id.substring(0, 10)}
                               </td>
                               <td data-th="Invoice Date">{item.company}</td>
                               <td data-th="Supplier Name">{item.name}</td>

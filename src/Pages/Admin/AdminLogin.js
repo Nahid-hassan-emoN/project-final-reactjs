@@ -31,8 +31,13 @@ const AdminLogin = () => {
       );
 
       const data = await res.json();
-      localStorage.setItem("eshoptoken", data.token);
-      navigate("/admin");
+      if (data.token) {
+        localStorage.setItem("eshoptoken", data.token);
+        navigate("/admin");
+      } else {
+        alert("failed to login");
+      }
+
       // console.log(localStorage.getItem("eshoptoken"));
     } catch (error) {
       console.log(error.message);

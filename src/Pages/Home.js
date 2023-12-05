@@ -107,7 +107,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ---product-Collection--- */}
+      {/* ---First--Marque-Collection--- */}
       <MarqueProduct />
 
       {/* ---Featured Collection--- */}

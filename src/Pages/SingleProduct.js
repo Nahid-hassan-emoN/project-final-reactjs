@@ -17,18 +17,14 @@ const SingleProduct = () => {
   console.log(params);
   const fetchProducts = async () => {
     const response = await fetch(
-      `https://dummyjson.com/products/${params.productId}`
+      `https://eshop-backend-rose.vercel.app/admin/products/${params.productId}`
     );
     const data = await response.json();
     return data;
   };
 
-  const {
-    isLoading,
-    error,
-    data: product,
-  } = useQuery({
-    queryKey: ["product", params.productId],
+  const { isLoading, error, data } = useQuery({
+    queryKey: ["", params.data],
     queryFn: fetchProducts,
   });
 
@@ -42,8 +38,9 @@ const SingleProduct = () => {
 
   return (
     <>
-      <Meta title={product.title} />
+      <Meta title={data.name} />
       <BreadCrumb title=" Product Name" />
+
       <div className="single-product py-3 home-wrapper-2">
         <div className="container-xxl">
           <div className="main-product-wrapper py-3 home-wrapper-2">
@@ -53,25 +50,36 @@ const SingleProduct = () => {
               </div>
               <div className="col-5">
                 <div className="branding">
-                  <h4>{product.title}</h4>
+                  <h4>{data.name}</h4>
 
                   <h6>
-                    Brand:
+                    Brand :&nbsp;&nbsp;
                     <span
                       className="
                     text-red-400"
                     >
-                      {product.brand}
+                      {data.company}
                     </span>
                   </h6>
-                  <p>
-                    <span>Specification</span>
-                  </p>
+                  <div className=" mt-4">
+                    <h5 htmlFor="">Specification</h5>
+                    <hr />
+                    <div className="specifiCation gap-10">
+                      {data.specification.map((item, index) => (
+                        <p key={index}>
+                          <span className="title">{item.title}:</span>
+                          &nbsp;&nbsp; &nbsp;&nbsp;
+                          <span>{item.value}</span>
+                        </p>
+                      ))}
+                    </div>
+                  </div>
+
                   <hr />
                 </div>
 
                 <div className="price">
-                  <h3>৳ {product.price}</h3>
+                  <h3>৳ {data.price}</h3>
                 </div>
 
                 <div className="buy-button">
@@ -88,7 +96,7 @@ const SingleProduct = () => {
               <div className="col-12">
                 <div className="bg-white p-3">
                   <h4>Details:</h4>
-                  <p>{product.description}</p>
+                  <p>{data.details}</p>
                 </div>
               </div>
             </div>
@@ -105,7 +113,7 @@ const SingleProduct = () => {
                         <ReactStars
                           count={5}
                           size={18}
-                          value={product.rating}
+                          value={data.rating}
                           edit={false}
                           activeColor="#ffd700"
                         />

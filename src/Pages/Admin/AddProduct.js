@@ -24,7 +24,7 @@ const AddProduct = () => {
     // Default category
     category: " smart phone",
     // additionalCategory: "",
-    productImage: "abc.jpg",
+    productImage: "",
     details: "",
     rating: ``,
   });
@@ -66,24 +66,46 @@ const AddProduct = () => {
     setSelectedCategory(e.target.value);
   };
   // Handler to submit the form data
-  const handleSubmit = (e) => {
+
+  const uploadImage = async (e) => {
+    console.log(e.target.files[0]);
+    setLoading(true);
+    const imageForm = new FormData();
+    imageForm.append("image", e.target.files[0]);
+    console.log(imageForm);
+
+    const response = await fetch(
+      "https://api.imgbb.com/1/upload?key=c255676be63e51dd58bb99826d7eb9ec",
+      {
+        method: "POST",
+        body: imageForm,
+      }
+    );
+    if (!response.ok) {
+      alert("Image could not be uploaded");
+      setLoading(false);
+      return;
+    }
+    const data = await response.json();
+    console.log(data.data?.display_url);
+    setProductData((productData) => ({
+      ...productData,
+      productImage: data.data?.display_url,
+    }));
+    setLoading(false);
+
+    // const imgBBData = await imgBBResponse.json();
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     // Upload image to ImgBB
-    // const imageForm = new FormData();
-    // imageForm.append("image", e.target.image.files[0]);
 
-    // const imgBBResponse = await fetch("https://api.imgbb.com/1/upload?c255676be63e51dd58bb99826d7eb9ec" , {
-    //   method: "POST",
-    //   body: imageForm,
-    // });
-
-    // const imgBBData = await imgBBResponse.json();
-
-    // // Prepare product data with the image URL
+    // Prepare product data with the image URL
     // const productDataWithImage = {
     //   ...productData,
-    //   productImage: imgBBData.data.url,
+    //   productImage: "",
     // };
     const token = localStorage.getItem("eshoptoken");
 
@@ -115,30 +137,36 @@ const AddProduct = () => {
       })
 
       .then((data) => {
-        Swal.fire({
-          title: "Product added!",
-          icon: "success",
-        });
+        console.log(data);
+        if (!data.error) {
+          Swal.fire({
+            title: "Product added!",
+            icon: "success",
+          });
+          setProductData({
+            name: "",
+            price: "",
+            availableQuantity: "",
+            company: "",
+            countryOfOrigin: "",
+            specification: [],
+            category: "",
+            productImage: "",
+            details: "",
+            rating: ``,
+          });
+        } else {
+          throw new Error("Failed to add product");
+        }
       })
       .catch((error) => {
         console.error("Error:", error);
+        alert(error.message || "something went wrong");
       })
       .finally(() => {
         setLoading(false);
       });
     // Reset the form data
-    setProductData({
-      name: "",
-      price: "",
-      availableQuantity: "",
-      company: "",
-      countryOfOrigin: "",
-      specification: [],
-      category: "",
-      productImage: "",
-      details: "",
-      rating: ``,
-    });
   };
   return (
     <>
@@ -328,7 +356,11 @@ const AddProduct = () => {
                     <label htmlFor="img" className="mt-4">
                       Image:
                     </label>
-                    <input type="file" />
+                    <input
+                      type="file"
+                      name="productImage"
+                      onChange={uploadImage}
+                    />
                     <label htmlFor="details">Details:</label>
                     <textarea
                       id="details"

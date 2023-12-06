@@ -22,7 +22,7 @@ const ThumbGallery = () => {
   console.log(params);
   const fetchProducts = async () => {
     const response = await fetch(
-      `https://dummyjson.com/products/${params.productId}`
+      `https://eshop-backend-rose.vercel.app/admin/products/${params.productId}`
     );
     const data = await response.json();
     return data;
@@ -57,17 +57,17 @@ const ThumbGallery = () => {
         className="mySwiper2"
       >
         <SwiperSlide thumbsSwiper={thumbsSwiper}>
-          <img src={product.images[0]} />
+          <img src={product.productImage} />
+        </SwiperSlide>
+        {/* <SwiperSlide thumbsSwiper={thumbsSwiper}>
+          <img src={product.productImage} />
         </SwiperSlide>
         <SwiperSlide thumbsSwiper={thumbsSwiper}>
-          <img src={product.images[1]} />
+          <img src={product.productImage} />
         </SwiperSlide>
         <SwiperSlide thumbsSwiper={thumbsSwiper}>
-          <img src={product.images[2]} />
-        </SwiperSlide>
-        <SwiperSlide thumbsSwiper={thumbsSwiper}>
-          <img src={product.images[3]} />
-        </SwiperSlide>
+          <img src={product.productImage} />
+        </SwiperSlide> */}
       </Swiper>
       <Swiper
         onSwiper={setThumbsSwiper}
@@ -77,7 +77,7 @@ const ThumbGallery = () => {
         modules={[FreeMode, Navigation]}
         className="mySwiper"
       >
-        <SwiperSlide onClick={setThumbsSwiper}>
+        {/* <SwiperSlide onClick={setThumbsSwiper}>
           <img src={product.images[0]} />
         </SwiperSlide>
         <SwiperSlide onClick={setThumbsSwiper}>
@@ -88,7 +88,7 @@ const ThumbGallery = () => {
         </SwiperSlide>
         <SwiperSlide onClick={setThumbsSwiper}>
           <img src={product.images[3]} />
-        </SwiperSlide>
+        </SwiperSlide> */}
       </Swiper>
     </>
   );

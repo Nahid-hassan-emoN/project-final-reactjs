@@ -193,23 +193,38 @@ const OurStore = (product) => {
                       Sort By:
                     </p>
 
-                    <select className=" from-select" name="" id="">
-                      <option value="manual">Featured</option>
-                      <option value="best-selling" selected>
-                        Best Selling
-                      </option>
-                      <option value="title-ascending">
-                        Alphabetically A-Z
-                      </option>
-                      <option value="title-descending">Featured</option>
-                      <option value="price-ascending">Price Low to High</option>
-                      <option value="price-descending">
-                        Price High to Low
-                      </option>
-                      <option value="create-ascending">Date, Old to New</option>
-                      <option value="create-descending">
-                        Date, New to Old
-                      </option>
+                    <select
+                      id="category"
+                      name="category"
+                      // value={selectedCategory}
+                      // onChange={handleCategoryChange}
+                    >
+                      <optgroup label="Electronics">
+                        <option value="smart-phones">Smart Phones</option>
+
+                        <option value="laptops-computers">
+                          Laptops & Computers
+                        </option>
+                        <option value="audio-headphones">
+                          Audio & Headphones
+                        </option>
+                        <option value="cameras-photography">
+                          Cameras & Photography
+                        </option>
+                        <option value="home-appliances">Home Appliances</option>
+                        <option value="smart-watch">Smart Watch</option>
+                        <option value="smart-tv">Smart TV</option>
+                      </optgroup>
+
+                      <optgroup label="Toys & Games">
+                        <option value="toys-for-kids">Toys for Kids</option>
+                        <option value="puzzles & brain teasers">
+                          Puzzles & Brain Teasers
+                        </option>
+                        <option value="educational-toys">
+                          Educational Toys
+                        </option>
+                      </optgroup>
                     </select>
                   </div>
 

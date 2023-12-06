@@ -5,18 +5,16 @@ import { Link } from "react-router-dom";
 import Loading from "./Loading";
 
 const fetchProducts = async () => {
-  const response = await fetch("https://dummyjson.com/products");
+  const response = await fetch(
+    "https://eshop-backend-rose.vercel.app/admin/products"
+  );
   const data = await response.json();
-  return data.products;
+  return data;
 };
 
 const ProductCard = () => {
-  const {
-    isLoading,
-    error,
-    data: products,
-  } = useQuery({
-    queryKey: ["products"],
+  const { isLoading, error, data } = useQuery({
+    queryKey: ["product"],
     queryFn: fetchProducts,
   });
 
@@ -29,10 +27,10 @@ const ProductCard = () => {
 
   return (
     <>
-      {products.map((product) => (
-        <div className="productCard" key={product.id}>
+      {data.map((product) => (
+        <div className="productCard" key={product._id}>
           <Link
-            to={`/product/${product.id}`}
+            to={`/product/${product._id}`}
             className="product-card position-relative"
           >
             <div className="wishlist-icon position-absolute ">
@@ -43,22 +41,22 @@ const ProductCard = () => {
 
             <div className="product-image">
               <img
-                src={product.thumbnail}
-                alt={product.title}
+                src={product.productImage}
+                alt={product.name}
                 className="inner-img"
               />
             </div>
 
             <div className="product-details text-dark">
-              <h6 className="brand mt-3">{product.brand}</h6>
+              <h6 className="brand mt-3">{product.name}</h6>
               <h5 className="product-title">
-                {product.description.substring(0, 34)}
+                {product.details.substring(0, 34)}
               </h5>
               <div className="rate-stars d-flex">
                 <ReactStars
                   count={5}
                   size={18}
-                  value="4"
+                  value={product.rating}
                   edit={false}
                   activeColor="#ffd700"
                 />

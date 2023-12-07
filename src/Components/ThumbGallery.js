@@ -22,7 +22,7 @@ const ThumbGallery = () => {
   console.log(params);
   const fetchProducts = async () => {
     const response = await fetch(
-      `https://eshop-backend-rose.vercel.app/admin/products/${params.productId}`
+      `https://eshop-backend-rose.vercel.app/admin/products/all/${params.productId}`
     );
     const data = await response.json();
     return data;

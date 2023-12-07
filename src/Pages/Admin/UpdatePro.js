@@ -13,7 +13,7 @@ const UpdatePro = () => {
 
   const fetchProduct = async () => {
     const response = await fetch(
-      `https://eshop-backend-rose.vercel.app/admin/products/${params.productId}`
+      `https://eshop-backend-rose.vercel.app/admin/products/all/${params.productId}`
     );
     const data = await response.json();
     console.log(data);
@@ -34,7 +34,7 @@ const UpdatePro = () => {
   const mutation = useMutation({
     mutationFn: (newProduct) => {
       return axios.put(
-        `https://eshop-backend-rose.vercel.app/admin/products/${params.productId}`
+        `https://eshop-backend-rose.vercel.app/admin/products/all/${params.productId}`
       );
     },
   });

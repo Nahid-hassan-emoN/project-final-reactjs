@@ -17,14 +17,14 @@ const SingleProduct = () => {
   console.log(params);
   const fetchProducts = async () => {
     const response = await fetch(
-      `https://eshop-backend-rose.vercel.app/admin/products/${params.productId}`
+      `https://eshop-backend-rose.vercel.app/admin/products/all/${params.productId}`
     );
     const data = await response.json();
     return data;
   };
 
   const { isLoading, error, data } = useQuery({
-    queryKey: ["", params.data],
+    queryKey: ["productId", params.productId],
     queryFn: fetchProducts,
   });
 
@@ -56,15 +56,24 @@ const SingleProduct = () => {
                     Brand :&nbsp;&nbsp;
                     <span
                       className="
-                    text-red-400"
+                    text-danger"
                     >
                       {data.company}
                     </span>
                   </h6>
-                  <div className=" mt-4">
+                  <h6>
+                    Category :&nbsp;&nbsp;
+                    <span
+                      className="
+                    text-danger"
+                    >
+                      {data.category}
+                    </span>
+                  </h6>
+                  <div className=" mt-3">
                     <h5 htmlFor="">Specification</h5>
                     <hr />
-                    <div className="specifiCation gap-10">
+                    <div className="specifiCation gap-10 ">
                       {data.specification.map((item, index) => (
                         <p key={index}>
                           <span className="title">{item.title}:</span>

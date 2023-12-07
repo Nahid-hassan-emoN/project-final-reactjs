@@ -18,13 +18,14 @@ const AllProduct = () => {
 
   const fetchProducts = async () => {
     const response = await fetch(
-      "https://eshop-backend-rose.vercel.app/admin/products"
+      "https://eshop-backend-rose.vercel.app/admin/products/all?all=1"
     );
     const data = await response.json();
-    if (Array.isArray(data)) {
-      setProductData(data);
+    if (Array.isArray(data.products)) {
+      setProductData(data.products);
     }
     // return data;
+    console.log(data);
   };
 
   useEffect(() => {
@@ -46,7 +47,7 @@ const AllProduct = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       fetch(
-        `https://eshop-backend-rose.vercel.app/admin/products/${productId}`,
+        `https://eshop-backend-rose.vercel.app/admin/products/all/${productId}`,
         {
           method: "DELETE",
           headers: {
@@ -156,7 +157,7 @@ const AllProduct = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {console.log(productData)}
+                        {/* {console.log(productData)} */}
 
                         {Array.isArray(productData) &&
                           productData.map((item) => (

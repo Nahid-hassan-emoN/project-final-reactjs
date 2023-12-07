@@ -35,7 +35,7 @@ const AdminLogin = () => {
         localStorage.setItem("eshoptoken", data.token);
         navigate("/admin");
       } else {
-        alert("failed to login");
+        alert("Incorrect Password or Email");
       }
 
       // console.log(localStorage.getItem("eshoptoken"));

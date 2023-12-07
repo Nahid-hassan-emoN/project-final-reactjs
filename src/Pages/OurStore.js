@@ -7,6 +7,7 @@ import ProductCard from "../Components/ProductCard";
 import Colors from "../Components/Colors";
 import { IoSearchSharp } from "react-icons/io5";
 import Pagination from "../Components/Pagination";
+import { Link } from "react-router-dom";
 const OurStore = (product) => {
   // const [itemS, setItemS] = useState(1);
   // const [itemsPerPage] = useState(10);
@@ -14,6 +15,7 @@ const OurStore = (product) => {
   // const indexofLastPost = itemS * itemsPerPage;
   // const indexOfFirstPost = indexofLastPost - itemsPerPage;
   // const currentsItem = product.slice(indexOfFirstPost, indexofLastPost);
+
   return (
     <>
       <Meta title={"Our Store"} />
@@ -234,11 +236,10 @@ const OurStore = (product) => {
                         <select className="from-select" data-trigger="" name="">
                           <option placeholder="">Category</option>
                           <option>New Arrivals</option>
-                          <option>Sale</option>
-                          <option>Ladies</option>
-                          <option>Men</option>
-                          <option>Clothing</option>
-                          <option>Footwear</option>
+                          <option>Best Sale</option>
+                          <option>Top Review</option>
+                          <option>Head Phone</option>
+
                           <option>Accessories</option>
                         </select>
                       </div>
@@ -262,14 +263,12 @@ const OurStore = (product) => {
               {/* ------products-list----- */}
 
               <div className="products-list pb-4">
-                <div className="d-flex gap-10 flex-wrap">
-                  <ProductCard />
-                </div>
+                <ProductCard />
               </div>
             </div>
           </div>
 
-          <Pagination />
+          {/* <Pagination /> */}
         </div>
       </div>
     </>

@@ -5,7 +5,9 @@ import Swal from "sweetalert2";
 
 const AddProduct = () => {
   const [loading, setLoading] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState("smart-phones");
+
+  const [selectedCategory, setSelectedCategory] = useState("");
+
   const [specification, setSpecification] = useState({
     title: "",
     value: "",
@@ -22,21 +24,12 @@ const AddProduct = () => {
     specification: [],
 
     // Default category
-    category: " smart phone",
+    category: "",
     // additionalCategory: "",
     productImage: "",
     details: "",
     rating: ``,
   });
-
-  // img--bb
-  // fetch("https://api.imgbb.com/1/upload",
-  //   {
-  //     method: "POST",
-
-  // })
-
-  // img--bb
 
   const addSpecificationHandeler = () => {
     // console.log(specification);
@@ -72,7 +65,7 @@ const AddProduct = () => {
     setLoading(true);
     const imageForm = new FormData();
     imageForm.append("image", e.target.files[0]);
-    console.log(imageForm);
+    // console.log(imageForm);
 
     const response = await fetch(
       "https://api.imgbb.com/1/upload?key=c255676be63e51dd58bb99826d7eb9ec",
@@ -92,6 +85,7 @@ const AddProduct = () => {
       ...productData,
       productImage: data.data?.display_url,
     }));
+
     setLoading(false);
 
     // const imgBBData = await imgBBResponse.json();
@@ -100,32 +94,30 @@ const AddProduct = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    // Upload image to ImgBB
-
-    // Prepare product data with the image URL
-    // const productDataWithImage = {
-    //   ...productData,
-    //   productImage: "",
-    // };
+    // Prepare product data with the selected category
+    const productDataWithCategory = {
+      ...productData,
+      category: selectedCategory,
+    };
     const token = localStorage.getItem("eshoptoken");
 
-    console.log(token);
+    // console.log(token);
 
-    console.log(productData);
+    // console.log(productData);
 
     // console.log(obj);
     console.log(JSON.stringify(productData));
 
     // Send the POST request
-    fetch("https://eshop-backend-rose.vercel.app/admin/products", {
+    fetch("https://eshop-backend-rose.vercel.app/admin/products/all", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: token,
         // Add any additional headers as needed, such as authorization headers
       },
-
-      body: JSON.stringify(productData),
+      body: JSON.stringify(productDataWithCategory),
+      // body: JSON.stringify(productData),
     })
       .then((response) => {
         return response.json();
@@ -137,7 +129,7 @@ const AddProduct = () => {
       })
 
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         if (!data.error) {
           Swal.fire({
             title: "Product added!",
@@ -155,6 +147,7 @@ const AddProduct = () => {
             details: "",
             rating: ``,
           });
+          setSelectedCategory("");
         } else {
           throw new Error("Failed to add product");
         }
@@ -163,8 +156,10 @@ const AddProduct = () => {
         console.error("Error:", error);
         alert(error.message || "something went wrong");
       })
+
       .finally(() => {
         setLoading(false);
+        e.target.productImage.value = null;
       });
     // Reset the form data
   };
@@ -313,7 +308,7 @@ const AddProduct = () => {
                       </div>
                     )}
 
-                    <label htmlFor="job">Select Category:</label>
+                    <label htmlFor="category">Select Category:</label>
                     <select
                       id="category"
                       name="category"
@@ -321,6 +316,8 @@ const AddProduct = () => {
                       onChange={handleCategoryChange}
                     >
                       <optgroup label="Electronics">
+                        <option value="">Select Category</option>
+
                         <option value="smart-phones">Smart Phones</option>
 
                         <option value="laptops-computers">

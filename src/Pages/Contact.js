@@ -58,17 +58,7 @@ const Contact = () => {
                   required
                 />
               </p>
-              <p>
-                <label for="usersite" class="icon-link">
-                  Website
-                </label>
-                <input
-                  type="url"
-                  name="usersite"
-                  id="usersite"
-                  placeholder="eg: http://www.example.com"
-                />
-              </p>
+
               <p>
                 <label for="subject" class="icon-bullhorn">
                   Subject

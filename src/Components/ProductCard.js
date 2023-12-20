@@ -66,7 +66,7 @@ const ProductCard = () => {
   // if (error) {
   //   return <h3>Error: {error.message} </h3>;
   // }
-
+  // const limitedProducts = products.slice(0, limit);
   return (
     <div className="">
       <>

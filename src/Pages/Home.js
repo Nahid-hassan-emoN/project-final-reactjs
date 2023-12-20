@@ -5,7 +5,7 @@ import Marquee from "react-fast-marquee";
 import Meta from "../Components/Meta";
 import { Link } from "react-router-dom";
 import BlogCard from "../Components/BlogCard";
-import ProductCard from "../Components/ProductCard";
+import ProductCard2 from "../Components/ProductCard2";
 import SpecialProduct from "../Components/SpecialProduct";
 import PopularPord from "../Components/PopularPord";
 
@@ -14,6 +14,7 @@ import MarqueBrand from "../Components/MarqueBrand";
 import MarqueProduct from "../Components/MarqueProduct";
 
 const Home = () => {
+  const limit = 4;
   return (
     <>
       <Meta title={"Home"} />
@@ -116,7 +117,7 @@ const Home = () => {
           <div className="col-12">
             <h3 className="section-heading">Featured Collection</h3>
             <div className="row">
-              <ProductCard />
+              <ProductCard2 />
             </div>
           </div>
         </div>

@@ -8,7 +8,7 @@ import Colors from "../Components/Colors";
 import { IoSearchSharp } from "react-icons/io5";
 import Pagination from "../Components/Pagination";
 import { Link } from "react-router-dom";
-const OurStore = (product) => {
+const OurStore = () => {
   // const [itemS, setItemS] = useState(1);
   // const [itemsPerPage] = useState(10);
   // get items per page
@@ -231,7 +231,7 @@ const OurStore = (product) => {
                   </div>
 
                   <div className="d-flex align-items-center inputFields">
-                    <div class="first-wrap mx-2 mt-1">
+                    {/* <div class="first-wrap mx-2 mt-1">
                       <div class="selection">
                         <select className="from-select" data-trigger="" name="">
                           <option placeholder="">Category</option>
@@ -243,7 +243,7 @@ const OurStore = (product) => {
                           <option>Accessories</option>
                         </select>
                       </div>
-                    </div>
+                    </div> */}
                     <div class="input-field second-wrap">
                       <input
                         id="search"

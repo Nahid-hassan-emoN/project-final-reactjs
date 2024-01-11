@@ -7,10 +7,13 @@ import ThumbGallery from "../Components/ThumbGallery";
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../Components/Loading";
+import Swal from "sweetalert2";
 
 const SingleProduct = () => {
   const [orderProduct, setOrderProduct] = useState(true);
 
+  // State to manage the cart items
+  const [cart, setCart] = useState([]);
   // fetch data
 
   const params = useParams();
@@ -20,6 +23,7 @@ const SingleProduct = () => {
       `https://eshop-backend-rose.vercel.app/admin/products/all/${params.productId}`
     );
     const data = await response.json();
+    console.log("fads", data);
     return data;
   };
 
@@ -34,6 +38,51 @@ const SingleProduct = () => {
   if (error) {
     return <h3>Error: {error.message} </h3>;
   }
+
+  async function addToCart(productId) {
+    console.log("fadsf", productId);
+    const url = "https://eshop-backend-rose.vercel.app/customer/cart";
+    const data = {
+      productId,
+      quantity: 1,
+    };
+
+    try {
+      const token = localStorage.getItem("eshopCustomerToken");
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+          // You can add other headers if required
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      Swal.fire({
+        title: "Product Added to cart!",
+
+        icon: "success",
+      });
+
+      const result = await response.json();
+      console.log("Response:", result);
+    } catch (error) {
+      console.error("Error:", error.message);
+      Swal.fire({
+        icon: "Sorry ",
+        title: "Oops...",
+        text: "You Have to Login!",
+      });
+    }
+  }
+
+  // Call the function to make the POST request
+  // addToCart();
+
   // const { id, price, stock } = product;
 
   return (
@@ -92,9 +141,18 @@ const SingleProduct = () => {
                 </div>
 
                 <div className="buy-button">
-                  <Link to="/cart">
-                    <button className="button-71 ">Add To Cart</button>
-                  </Link>
+                  {/* <Link to="/cart">
+                    <button className="button-71 " onClick={handleAddToCart}>
+                      Add To Cart
+                    </button>
+                  </Link> */}
+
+                  <button
+                    className="button-71 "
+                    onClick={() => addToCart(data._id)}
+                  >
+                    Add To Cart
+                  </button>
                 </div>
               </div>
             </div>
@@ -152,7 +210,7 @@ const SingleProduct = () => {
                 <div className="row">
                   <PopularPord />
                   <PopularPord />
-                  <PopularPord />
+
                   <PopularPord />
                   <PopularPord />
                 </div>

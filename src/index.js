@@ -44,6 +44,7 @@ import DealDiscount from "./Pages/Admin/DealDiscount";
 // react-quaery
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ProtectedRoute from "./Pages/content/ProtectedRoute";
+import AuthProvider from "./Pages/content/AuthProvider";
 // Create a client
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -88,11 +89,20 @@ const router = createBrowserRouter([
       },
       {
         path: "/cart",
-        element: <Cart />,
+        element: (
+          <AuthProvider>
+            <Cart />
+          </AuthProvider>
+        ),
       },
       {
         path: "/payment",
-        element: <Payment />,
+
+        element: (
+          <AuthProvider>
+            <Payment />
+          </AuthProvider>
+        ),
       },
       {
         path: "/privacy-policy",

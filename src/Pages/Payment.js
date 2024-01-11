@@ -1,10 +1,76 @@
-import React from "react";
+import React, { useState } from "react";
 import Meta from "../Components/Meta";
 import BreadCrumb from "../Components/BreadCrumb";
 
 import { FaCcMastercard, FaCreditCard } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 const Payment = () => {
+  const [selectedPaymentMethod, setSelectedPaymentMethod] =
+    useState("Cash On Delivery");
+
+  const handlePaymentMethodChange = (method) => {
+    setSelectedPaymentMethod(method);
+  };
+
+  const handleConfirmPayment = async () => {
+    const orderConfirmationData = {
+      paymentMethod: selectedPaymentMethod,
+      // Add other necessary data for order confirmation
+    };
+
+    // Show confirmation dialog
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Confirm This Order",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Confirm it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const token = localStorage.getItem("eshopCustomerToken");
+          const response = await fetch(
+            "https://eshop-backend-rose.vercel.app/customer/orders",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: token,
+              },
+              body: JSON.stringify(orderConfirmationData),
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error("Order confirmation request failed");
+          }
+
+          const responseData = await response.json();
+          console.log("Order confirmation response:", responseData);
+
+          // Show success message
+          Swal.fire({
+            title: "Confirmed!",
+            text: "Your order has been confirmed.",
+            icon: "success",
+          });
+
+          // Handle success, e.g., redirect to a confirmation page or update UI
+        } catch (error) {
+          console.error("Error:", error);
+          // Handle error, e.g., show an error message to the user
+          Swal.fire({
+            title: "Error",
+            text: "Failed to confirm the order.  Already Ordered",
+            icon: "error",
+          });
+        }
+      }
+    });
+  };
   return (
     <>
       <Meta title={"Confirm Payment"} />
@@ -136,16 +202,20 @@ const Payment = () => {
                       </p>
                     </div>
                   </div>
-                  <button type="button" class="btn btn-primary">
-                    Proceed to payment
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    onClick={handleConfirmPayment}
+                  >
+                    Confirm The Order
                   </button>
                 </div>
               </div>
 
               <div className="payment-2" md="5" xl="4" offsetXl="1">
-                <div className="py-4 d-flex justify-content-end">
+                <div className="py-4 d-flex justify-content-start">
                   <h6>
-                    <Link to="/cart">Cancel and return to website</Link>
+                    <Link to="/cart">Cancel and return to store</Link>
                   </h6>
                 </div>
                 <div
@@ -155,56 +225,9 @@ const Payment = () => {
                   <div className="p-2 me-3">
                     <h4>Order Recap</h4>
                   </div>
-                  <div className="p-2 d-flex">
-                    <div className="col" size="8">
-                      Contracted Price
-                    </div>
-                    <div className="ms-auto">$186.76</div>
-                  </div>
-                  <div className="p-2 d-flex">
-                    <div className="col" size="8">
-                      Amount toward deductible
-                    </div>
-                    <div className="ms-auto">$0.00</div>
-                  </div>
-                  <div className="p-2 d-flex">
-                    <div className="col" size="8">
-                      Coinsurance(0%)
-                    </div>
-                    <div className="ms-auto">+ $0.00</div>
-                  </div>
-                  <div className="p-2 d-flex">
-                    <div className="col" size="8">
-                      Copayment
-                    </div>
-                    <div className="ms-auto">+ $40.00</div>
-                  </div>
-                  <div className="border-top px-2 mx-2"></div>
-                  <div className="p-2 d-flex pt-3">
-                    <div className="col" size="8">
-                      Total Deductible, Coinsurance, and Copay
-                    </div>
-                    <div className="ms-auto">$40.00</div>
-                  </div>
 
                   <div className="border-top px-2 mx-2"></div>
-                  <div className="p-2 d-flex pt-3">
-                    <div className="col" size="8">
-                      Insurance Responsibility
-                    </div>
-                    <div className="ms-auto">
-                      <b>$71.76</b>
-                    </div>
-                  </div>
-                  <div className="p-2 d-flex">
-                    <div className="col" size="8">
-                      Patient Balance
-                      <span className="fa fa-question-circle text-dark"></span>
-                    </div>
-                    <div className="ms-auto">
-                      <b>$71.76</b>
-                    </div>
-                  </div>
+
                   <div className="border-top px-2 mx-2"></div>
                   <div className="p-2 d-flex pt-3">
                     <div className="col" size="8">

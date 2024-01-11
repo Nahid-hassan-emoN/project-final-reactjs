@@ -32,7 +32,7 @@ const ProductCard = () => {
     fetch("https://eshop-backend-rose.vercel.app/admin/products/pages")
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        console.log("fgasdf", data);
         if (data.totalPages) {
           getAllPages(parseInt(data.totalPages));
         }
@@ -95,7 +95,7 @@ const ProductCard = () => {
                   <div className="product-details text-dark">
                     <h6 className="brand mt-3">{product.company}</h6>
                     <h5 className="product-title">
-                      {product.name.substring(0, 35)}
+                      {product.name.substring(0, 30)}
                     </h5>
                     <div className="rate-stars d-flex">
                       <ReactStars

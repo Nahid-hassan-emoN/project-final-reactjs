@@ -1,14 +1,21 @@
-import { createContext, useState } from "react";
+import React, { useState } from "react";
+import { Navigate } from "react-router-dom";
+// import {
+//   useQuery,
+//   useMutation,
+// } from "react-query";
+// import { Route, Redirect } from "react-router-dom";
 
-const AuthContext = createContext({});
-
-export const AuthProvider = ({ children }) => {
-  const [auth, setAuth] = useState({});
-  return (
-    <AuthContext.Provider value={{ auth, setAuth }}>
-      {children}
-    </AuthContext.Provider>
-  );
+const AuthProvider = ({ children }) => {
+  //   const [user, setUser] = useState("");
+  //   const [loading, setLoading] = useState(true);
+  const token = localStorage.getItem("eshopCustomerToken");
+  const user = false;
+  if (token) {
+    return children;
+  } else {
+    return <Navigate to="/login" />;
+  }
 };
 
-export default AuthContext;
+export default AuthProvider;

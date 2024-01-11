@@ -14,7 +14,6 @@ import MarqueBrand from "../Components/MarqueBrand";
 import MarqueProduct from "../Components/MarqueProduct";
 
 const Home = () => {
-  const limit = 4;
   return (
     <>
       <Meta title={"Home"} />
@@ -33,7 +32,7 @@ const Home = () => {
                   <h4>SuperCharged For Pros</h4>
                   <h5>Airpod Pro S13+.</h5>
                   <p>
-                    From $199.00 or $11.99/mo.
+                    From &#2547; 19900 or &#2547; 1199/mo.
                     <br />
                     for 24mo/mo*
                   </p>
@@ -54,7 +53,7 @@ const Home = () => {
                     <h4>Best sale</h4>
                     <h5>Mac-Book Pro.</h5>
                     <p>
-                      From $999.00 or <br /> $41.99/mo.
+                      From &#2547; 99900 or <br /> &#2547; 4199/mo.
                     </p>
                   </div>
                 </div>
@@ -69,7 +68,7 @@ const Home = () => {
                     <h4>New Arrival</h4>
                     <h5>iWatch 9.</h5>
                     <p>
-                      From $299.00 or <br /> $21.99/mo.
+                      From &#2547; 29900 or <br /> &#2547; 2199/mo.
                     </p>
                   </div>
                 </div>
@@ -84,7 +83,7 @@ const Home = () => {
                     <h4>New Arrival</h4>
                     <h5>ipad Pro.</h5>
                     <p>
-                      From $399.00 or <br /> $31.99/mo.
+                      From &#2547; 39900 or <br /> &#2547; 3199/mo.
                     </p>
                   </div>
                 </div>
@@ -98,7 +97,7 @@ const Home = () => {
                     <h4>New Arrival</h4>
                     <h5>AirPods Max.</h5>
                     <p>
-                      From $199.00 or <br /> $11.99/mo.
+                      From &#2547; 19900 or <br /> &#2547; 1199/mo.
                     </p>
                   </div>
                 </div>
@@ -240,7 +239,7 @@ const Home = () => {
                   <img src="images/service.png" alt="" />
                   <div className="service-content-text">
                     <h6>Free Shipping</h6>
-                    <p>From all order over $100</p>
+                    <p>From all order over &#2547; 100</p>
                   </div>
                 </div>
                 <div className="service-content gap-15">

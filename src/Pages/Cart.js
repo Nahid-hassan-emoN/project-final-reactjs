@@ -282,8 +282,22 @@ const Cart = () => {
                     </strong>
                   </div>
                 </div>
-                <Link to="/payment">
-                  <button className="btn">CHECKOUT</button>
+                <Link
+                  to={
+                    productList.length > 0
+                      ? `/payment?total=${productList.reduce(
+                          (total, product) => total + product.price,
+                          0
+                        )}`
+                      : "#"
+                  }
+                  onClick={(e) =>
+                    productList.length === 0 && alert("Cart is empty")
+                  }
+                >
+                  <button className="btn" disabled={productList.length === 0}>
+                    CHECKOUT
+                  </button>
                 </Link>
               </div>
             </div>

@@ -12,9 +12,9 @@ const OrderProduct = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const token = localStorage.getItem("eshopCustomerToken");
+        const token = localStorage.getItem("eshoptoken");
         const response = await fetch(
-          "https://eshop-backend-rose.vercel.app/customer/orders",
+          "https://eshop-backend-rose.vercel.app/admin/orders?status=pending",
           {
             method: "GET",
             headers: {
@@ -74,7 +74,7 @@ const OrderProduct = () => {
                     <p>Loading...</p>
                   ) : (
                     <div className="allProduct-table">
-                      <table class="rwd-table">
+                      <table className="rwd-table ">
                         <tbody>
                           <tr>
                             <th>Order Code</th>
@@ -83,6 +83,7 @@ const OrderProduct = () => {
                             <th>Items</th>
                             <th>Address</th>
                             <th>Phone Number</th>
+                            <th>Total Amount</th>
                             <th>Status</th>
                             <th>order Action</th>
                           </tr>
@@ -95,13 +96,18 @@ const OrderProduct = () => {
                                 {order.date.substring(0, 10)}
                               </td>
 
-                              <td data-th="email">{order.carts[0].email}</td>
+                              <td data-th="email">{order.customer.email}</td>
                               <td data-th="Total Items">
-                                {order.carts[0].productList.length}
+                                {order.cart.productList.length}
                               </td>
-                              <td data-th="Address">gs</td>
+                              <td data-th="Address">
+                                {order.customer.fname}
+                                &nbsp;
+                                {order.customer.lname}
+                              </td>
+                              <td data-th="Address">{order.customer.image}</td>
                               <td data-th="Net Amount">
-                                {order.carts[0].productList.reduce(
+                                {order.cart.productList.reduce(
                                   (total, product) => total + product.price,
                                   0
                                 )}

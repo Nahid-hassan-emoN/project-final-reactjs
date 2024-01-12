@@ -4,7 +4,7 @@ import BreadCrumb from "../Components/BreadCrumb";
 import PopularPord from "../Components/PopularPord";
 import ReactStars from "react-rating-stars-component";
 import ThumbGallery from "../Components/ThumbGallery";
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, redirect, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../Components/Loading";
 import Swal from "sweetalert2";
@@ -73,8 +73,8 @@ const SingleProduct = () => {
     } catch (error) {
       console.error("Error:", error.message);
       Swal.fire({
-        icon: "Sorry ",
-        title: "Oops...",
+        icon: "info",
+        title: "Oops...Sorry",
         text: "You Have to Login!",
       });
     }

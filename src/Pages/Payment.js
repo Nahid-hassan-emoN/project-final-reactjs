@@ -1,14 +1,46 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Meta from "../Components/Meta";
 import BreadCrumb from "../Components/BreadCrumb";
 
 import { FaCcMastercard, FaCreditCard } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, Navigate, unstable_HistoryRouter } from "react-router-dom";
 import Swal from "sweetalert2";
 const Payment = () => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState("Cash On Delivery");
+  const [cart, setCart] = useState({});
 
+  useEffect(() => {
+    // Fetch cart data when the component mounts
+    const fetchCartData = async () => {
+      try {
+        const token = localStorage.getItem("eshopCustomerToken");
+        const response = await fetch(
+          "https://eshop-backend-rose.vercel.app/customer/cart",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: token,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch cart data");
+        }
+
+        const cartData = await response.json();
+        console.log(cartData);
+
+        setCart(cartData.cart);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    fetchCartData();
+  }, []);
   const handlePaymentMethodChange = (method) => {
     setSelectedPaymentMethod(method);
   };
@@ -56,6 +88,9 @@ const Payment = () => {
             title: "Confirmed!",
             text: "Your order has been confirmed.",
             icon: "success",
+          }).then(() => {
+            // Redirect to the home page
+            window.location.href = "/"; // Replace "/" with your home page URL
           });
 
           // Handle success, e.g., redirect to a confirmation page or update UI
@@ -71,6 +106,9 @@ const Payment = () => {
       }
     });
   };
+  const totalCartPrice = cart.productList
+    ? cart.productList.reduce((total, product) => total + product.price, 0)
+    : 0;
   return (
     <>
       <Meta title={"Confirm Payment"} />
@@ -93,7 +131,7 @@ const Payment = () => {
                   <div className="ms-auto">
                     <p className="text-primary">
                       <p fas icon="plus-circle" className="text-primary pe-1" />
-                      Add insurance card
+                      Add your Address
                     </p>
                   </div>
                 </div>
@@ -135,10 +173,7 @@ const Payment = () => {
                   <div className="d-flex pb-2">
                     <div>
                       <p>
-                        <b>
-                          Patient Balance
-                          <span className="text-success">$13.24</span>
-                        </b>
+                        <b>Payment Gateway</b>
                       </p>
                     </div>
                     <div className="ms-auto">
@@ -226,15 +261,42 @@ const Payment = () => {
                     <h4>Order Recap</h4>
                   </div>
 
-                  <div className="border-top px-2 mx-2"></div>
+                  {Array.isArray(cart.productList) &&
+                  cart.productList.length > 0 ? (
+                    cart.productList.map((product) => (
+                      <div key={product._id} className="border-top px-2 mx-2">
+                        <div className="row text-end">
+                          <div className="col-2 paymentImage ">
+                            <img
+                              className="img-fluid"
+                              src={product.productId.productImage}
+                            />
+                          </div>
+                          <div className="col-2">
+                            <b>&nbsp; {product.quantity}</b>
+                          </div>
+                          <div className="col-1">
+                            <b>*</b>
+                          </div>
+                          <div className="col-3">
+                            <b>{product.unitPrice}</b>
+                          </div>
+                          <div className="col-4">
+                            <b>= &nbsp; {product.price}</b>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p>No products in the cart</p>
+                  )}
 
-                  <div className="border-top px-2 mx-2"></div>
                   <div className="p-2 d-flex pt-3">
                     <div className="col" size="8">
-                      <b>Total</b>
+                      <b>Total s</b>
                     </div>
                     <div className="ms-auto">
-                      <b className="text-success">$85.00</b>
+                      <b className="text-success">&#2547; {totalCartPrice}</b>
                     </div>
                   </div>
                 </div>

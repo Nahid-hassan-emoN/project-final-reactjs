@@ -796,10 +796,16 @@
   background-color: #dfe6ce;
   padding: 3px;
 }
-.allProduct-table .rwd-table .tableStatus option {
-  border: 1px solid #000;
-  background-color: #ededed;
-  padding: 3px;
+.allProduct-table .rwd-table {
+  border: 2px solid #000;
+  background-color: #f7f7f7;
+  padding: 4px;
+}
+.allProduct-table .rwd-table th,
+td {
+  border: 2px solid #000;
+  background-color: #f7f7f7;
+  padding: 4px;
 }
 /* -------admin-order-list------------- */
 /* -------banner-products--------------- */

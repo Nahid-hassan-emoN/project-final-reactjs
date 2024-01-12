@@ -55,7 +55,7 @@ const UpdatePro = () => {
   return (
     <>
       <div className="admin-full-body">
-        <div className="container-xxl pt-5">
+        <div className="container pt-5">
           <div className="d-flex gap-20">
             <div className="admin-dashboard col-2">
               <AdminHeader />
